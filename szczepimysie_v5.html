@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SzczepimySię.pl – Apteczne Punkty Szczepień</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#1558d6;--primary-light:#e8effd;--primary-mid:#4a80e8;
+  --accent:#00c48c;--accent-light:#e6faf4;
+  --dark:#0b1330;--text:#1e2d4e;--muted:#6b7a99;--bg:#f5f7ff;--white:#fff;
+  --card-r:18px;--shadow:0 8px 40px rgba(21,88,214,.10);--shadow-lg:0 20px 60px rgba(21,88,214,.15);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:0 6%;height:70px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(21,88,214,.07);transition:box-shadow .3s}
+nav.scrolled{box-shadow:0 4px 32px rgba(0,0,0,.07)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--primary),var(--primary-mid));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(21,88,214,.3);flex-shrink:0}
+.logo-name{font-weight:800;font-size:1.05rem;color:var(--dark)}
+.logo-name span{color:var(--primary)}
+nav ul{list-style:none;display:flex;gap:32px}
+nav ul a{text-decoration:none;color:var(--muted);font-weight:500;font-size:.88rem;transition:color .2s;position:relative}
+nav ul a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--primary);border-radius:2px;transform:scaleX(0);transition:transform .25s}
+nav ul a:hover{color:var(--primary)}
+nav ul a:hover::after{transform:scaleX(1)}
+.nav-btn{background:var(--primary);color:var(--white);padding:9px 20px;border-radius:9px;text-decoration:none;font-weight:700;font-size:.85rem;box-shadow:0 4px 14px rgba(21,88,214,.22);transition:transform .2s,box-shadow .2s}
+.nav-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(21,88,214,.32)}
+
+/* HERO */
+.hero{min-height:100vh;padding:130px 6% 80px;background:linear-gradient(155deg,#eaf1fe 0%,#f4fff9 55%,#eef4ff 100%);display:flex;align-items:center;gap:64px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:550px;height:550px;border-radius:50%;background:radial-gradient(circle,rgba(21,88,214,.07) 0%,transparent 70%);pointer-events:none}
+.hero-left{flex:1;z-index:1}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary-light);color:var(--primary);padding:6px 14px;border-radius:50px;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:22px;animation:fadeUp .6s ease both}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+.hero h1{font-size:3rem;font-weight:800;line-height:1.15;color:var(--dark);margin-bottom:18px;animation:fadeUp .7s .1s ease both}
+.hero h1 .c1{color:var(--primary)}
+.hero h1 .c2{color:var(--accent)}
+.hero p{font-size:1rem;color:var(--muted);line-height:1.75;max-width:470px;margin-bottom:34px;animation:fadeUp .7s .2s ease both}
+.hero-btns{display:flex;gap:12px;animation:fadeUp .7s .3s ease both}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-mid));color:var(--white);padding:14px 28px;border-radius:11px;text-decoration:none;font-weight:700;font-size:.95rem;box-shadow:0 6px 22px rgba(21,88,214,.28);transition:transform .2s,box-shadow .2s}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(21,88,214,.38)}
+.btn-outline{border:2px solid rgba(21,88,214,.22);color:var(--primary);padding:12px 26px;border-radius:11px;text-decoration:none;font-weight:600;font-size:.95rem;transition:all .2s}
+.btn-outline:hover{background:var(--primary-light);border-color:var(--primary)}
+.hero-right{flex:0 0 400px;z-index:1;animation:fadeRight .8s .2s ease both}
+.hero-card{background:var(--white);border-radius:22px;box-shadow:var(--shadow-lg);padding:30px}
+.hc-label{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700;margin-bottom:14px}
+.check-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.check-item{display:flex;align-items:center;gap:11px;font-weight:600;font-size:.88rem}
+.check-icon{width:30px;height:30px;border-radius:8px;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.v-tags{display:flex;flex-wrap:wrap;gap:7px}
+.v-tag{background:var(--primary-light);color:var(--primary);padding:5px 13px;border-radius:50px;font-size:.77rem;font-weight:700;cursor:default;transition:background .2s,color .2s}
+.v-tag:hover{background:var(--primary);color:var(--white)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeRight{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:translateX(0)}}
+
+/* STATS */
+.stats-bar{background:linear-gradient(135deg,var(--primary),#0c2b70);padding:44px 6%;display:flex;justify-content:space-around;flex-wrap:wrap;gap:24px}
+.stat{text-align:center;color:var(--white)}
+.stat-n{font-size:2.6rem;font-weight:800;line-height:1}
+.stat-n em{color:var(--accent);font-style:normal}
+.stat-l{font-size:.82rem;opacity:.72;margin-top:5px;font-weight:500}
+
+/* SECTIONS */
+.section{padding:88px 6%}
+.section.alt{background:var(--bg)}
+.s-label{display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
+.s-label::before{content:'';width:18px;height:2px;background:var(--primary);border-radius:2px}
+.s-title{font-size:2rem;font-weight:800;color:var(--dark);line-height:1.2;margin-bottom:10px}
+.s-sub{color:var(--muted);font-size:.95rem;line-height:1.75;max-width:540px;margin-bottom:48px}
+
+/* STEPS */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px}
+.step-card{background:var(--white);border-radius:var(--card-r);padding:30px 24px;border:1.5px solid transparent;box-shadow:0 2px 12px rgba(0,0,0,.04);transition:transform .3s,box-shadow .3s,border-color .3s;position:relative;overflow:hidden}
+.step-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--primary)}
+.step-ghost{position:absolute;top:-8px;right:-4px;font-size:4.5rem;font-weight:800;color:rgba(21,88,214,.035);line-height:1;pointer-events:none}
+.step-icon{width:48px;height:48px;border-radius:12px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:16px}
+.step-card h3{font-size:.98rem;font-weight:700;margin-bottom:6px;color:var(--dark)}
+.step-card p{color:var(--muted);font-size:.84rem;line-height:1.6}
+
+/* VACCINES */
+.vac-filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}
+.vac-filter{border:1.5px solid rgba(21,88,214,.18);background:var(--white);color:var(--muted);padding:8px 18px;border-radius:50px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s}
+.vac-filter:hover{border-color:var(--primary);color:var(--primary)}
+.vac-filter.active{background:var(--primary);color:var(--white);border-color:var(--primary)}
+.vac-cat{display:none}
+.vac-cat.active{display:block}
+.vac-cat-title{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:14px;margin-top:28px;display:flex;align-items:center;gap:8px}
+.vac-cat-title:first-child{margin-top:0}
+.vac-cat-title::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.07)}
+.vac-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px}
+.vac-card{background:var(--white);border:1.5px solid rgba(21,88,214,.09);border-radius:16px;padding:18px 20px;display:flex;gap:15px;align-items:flex-start;transition:all .25s}
+.vac-card:hover{border-color:var(--primary);box-shadow:var(--shadow);transform:translateY(-3px)}
+.vac-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.vac-info h4{font-size:.88rem;font-weight:700;color:var(--dark);margin-bottom:3px}
+.vac-info p{font-size:.77rem;color:var(--muted);line-height:1.5}
+.vac-badge{display:inline-block;margin-top:6px;padding:2px 9px;border-radius:50px;font-size:.67rem;font-weight:700}
+.vac-badge.seasonal{background:#fff3e0;color:#d4690a}
+.vac-badge.required{background:var(--accent-light);color:#00916a}
+.vac-badge.travel{background:#f3e8ff;color:#7c3aed}
+.vac-badge.child{background:#fce8f3;color:#b5235b}
+
+/* LOCATIONS */
+.search-row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:28px;background:var(--white);border-radius:16px;padding:24px;box-shadow:var(--shadow);border:1.5px solid rgba(21,88,214,.07)}
+.sg{display:flex;flex-direction:column;gap:5px;flex:1;min-width:160px}
+.sg label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.sg input,.sg select{height:44px;border:1.5px solid rgba(21,88,214,.14);border-radius:9px;padding:0 14px;font-family:inherit;font-size:.9rem;color:var(--text);background:var(--bg);outline:none;transition:border .2s,box-shadow .2s;width:100%}
+.sg input:focus,.sg select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(21,88,214,.09)}
+.s-btn{height:44px;background:var(--primary);color:var(--white);border:none;border-radius:9px;padding:0 24px;font-family:inherit;font-weight:700;font-size:.87rem;cursor:pointer;box-shadow:0 4px 14px rgba(21,88,214,.22);transition:transform .2s,box-shadow .2s;white-space:nowrap}
+.s-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(21,88,214,.32)}
+.s-btn.reset{background:transparent;color:var(--muted);border:1.5px solid rgba(0,0,0,.1);box-shadow:none}
+.s-btn.reset:hover{background:var(--bg);transform:none}
+
+.loc-layout{display:grid;grid-template-columns:1fr 1.15fr;gap:24px;align-items:start}
+.pharm-list{display:flex;flex-direction:column;gap:10px;max-height:520px;overflow-y:auto;padding-right:4px}
+.pharm-list::-webkit-scrollbar{width:3px}
+.pharm-list::-webkit-scrollbar-thumb{background:var(--primary);border-radius:2px}
+.pcard{background:var(--white);border-radius:14px;padding:16px 18px;border:1.5px solid rgba(21,88,214,.08);cursor:pointer;transition:all .22s}
+.pcard:hover,.pcard.active{border-color:var(--primary);box-shadow:0 6px 22px rgba(21,88,214,.11);transform:translateX(4px)}
+.pcard.active{background:var(--primary-light)}
+.p-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.p-name{font-weight:700;font-size:.9rem;color:var(--dark)}
+.p-city{background:var(--primary-light);color:var(--primary);padding:2px 9px;border-radius:50px;font-size:.68rem;font-weight:700;white-space:nowrap}
+.p-addr{color:var(--muted);font-size:.8rem;margin-bottom:6px}
+.p-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px}
+.p-hours{font-size:.76rem;color:var(--accent);font-weight:600}
+.p-links{display:flex;gap:10px;align-items:center}
+.p-phone{font-size:.76rem;color:var(--primary);font-weight:600;text-decoration:none}
+.p-gmaps{font-size:.76rem;color:var(--muted);font-weight:600;text-decoration:none}
+.p-gmaps:hover{color:var(--primary)}
+.no-res{padding:36px;text-align:center;color:var(--muted);font-size:.88rem}
+
+.map-box{border-radius:var(--card-r);overflow:hidden;box-shadow:var(--shadow);border:1.5px solid rgba(21,88,214,.08);position:sticky;top:82px}
+.map-head{background:var(--white);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(21,88,214,.07)}
+.map-head-left{display:flex;align-items:center;gap:8px}
+.map-head-left span{font-weight:700;font-size:.88rem;color:var(--dark)}
+.map-count{font-size:.78rem;color:var(--muted)}
+#gmap{width:100%;height:480px;border:none;display:block}
+
+/* FAQ */
+.faq-wrap{max-width:760px}
+.faq-item{background:var(--white);border:1.5px solid rgba(21,88,214,.08);border-radius:14px;margin-bottom:8px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.faq-item:hover,.faq-item.open{border-color:var(--primary);box-shadow:var(--shadow)}
+.faq-btn{width:100%;background:none;border:none;padding:18px 22px;text-align:left;display:flex;justify-content:space-between;align-items:center;font-family:inherit;font-weight:600;font-size:.92rem;color:var(--dark);cursor:pointer;gap:12px}
+.faq-ico{width:26px;height:26px;border-radius:50%;border:2px solid rgba(21,88,214,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--primary);transition:transform .3s,background .2s,border-color .2s}
+.faq-item.open .faq-ico{transform:rotate(45deg);background:var(--primary);border-color:var(--primary);color:var(--white)}
+.faq-body{max-height:0;overflow:hidden;transition:max-height .35s;padding:0 22px;color:var(--muted);font-size:.88rem;line-height:1.75}
+.faq-item.open .faq-body{max-height:160px;padding-bottom:18px}
+
+/* CTA */
+.cta{padding:96px 6%;text-align:center;background:linear-gradient(135deg,var(--dark),#102266);position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;top:-150px;left:50%;transform:translateX(-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(21,88,214,.22) 0%,transparent 65%);pointer-events:none}
+.cta h2{font-size:2.3rem;font-weight:800;color:var(--white);margin-bottom:14px;position:relative}
+.cta p{color:rgba(255,255,255,.68);font-size:1rem;margin-bottom:32px;position:relative}
+.btn-cta{background:linear-gradient(135deg,var(--accent),#009e6e);color:var(--white);padding:15px 34px;border-radius:13px;text-decoration:none;font-weight:800;font-size:1rem;box-shadow:0 8px 28px rgba(0,196,140,.28);display:inline-block;position:relative;transition:transform .2s,box-shadow .2s}
+.btn-cta:hover{transform:translateY(-3px);box-shadow:0 14px 38px rgba(0,196,140,.38)}
+
+/* FOOTER */
+footer{background:#080e22;color:rgba(255,255,255,.48);padding:56px 6% 28px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px}
+.f-logo{font-weight:800;font-size:1rem;color:var(--white);margin:10px 0 8px}
+footer p{font-size:.84rem;line-height:1.7;max-width:270px}
+footer h4{color:var(--white);font-size:.86rem;font-weight:700;margin-bottom:14px}
+footer ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+footer ul a{color:rgba(255,255,255,.48);text-decoration:none;font-size:.84rem;transition:color .2s}
+footer ul a:hover{color:var(--white)}
+.f-copy{border-top:1px solid rgba(255,255,255,.06);padding-top:22px;text-align:center;font-size:.77rem;grid-column:1/-1;margin-top:4px}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+
+/* ===== TABLET ===== */
+@media(max-width:960px){
+  .hero{flex-direction:column;padding:100px 5% 60px;gap:36px}
+  .hero-right{flex:unset;width:100%}
+  .loc-layout{grid-template-columns:1fr}
+  .map-box{position:static}
+  footer{grid-template-columns:1fr 1fr}
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:840px){
+  nav{padding:0 4%}
+  nav ul{display:none}
+  .nav-btn{padding:8px 14px;font-size:.8rem}
+
+  .hero{padding:88px 4% 52px;gap:28px}
+  .hero h1{font-size:1.85rem}
+  .hero p{font-size:.92rem}
+  .hero-btns{flex-direction:column;gap:10px}
+  .btn-primary,.btn-outline{text-align:center;padding:13px 20px}
+  .hero-card{padding:22px}
+
+  .stats-bar{padding:32px 4%;gap:16px}
+  .stat-n{font-size:2rem}
+  .stat-l{font-size:.76rem}
+
+  .section{padding:60px 4%}
+  .s-title{font-size:1.65rem}
+  .s-sub{font-size:.88rem;margin-bottom:32px}
+
+  .steps-grid{grid-template-columns:1fr;gap:14px}
+  .step-card{padding:24px 20px}
+
+  .vac-filters{gap:8px}
+  .vac-filter{padding:7px 14px;font-size:.78rem}
+  .vac-cards{grid-template-columns:1fr;gap:10px}
+  .vac-card{padding:14px 16px}
+
+  .search-row{flex-direction:column;gap:10px;padding:18px}
+  .s-btn{width:100%}
+
+  .pharm-list{max-height:340px}
+  .pcard{padding:14px 16px}
+  .p-links{flex-direction:column;align-items:flex-end;gap:2px}
+
+  #gmap{height:320px}
+
+  .faq-btn{font-size:.85rem;padding:15px 16px}
+  .faq-body{padding:0 16px;font-size:.84rem}
+  .faq-item.open .faq-body{padding-bottom:14px}
+
+  .cta{padding:64px 4%}
+  .cta h2{font-size:1.7rem}
+  .cta p{font-size:.9rem}
+  .btn-cta{padding:13px 26px;font-size:.92rem}
+
+  footer{grid-template-columns:1fr;gap:24px;padding:40px 5% 24px;text-align:center}
+  footer p{max-width:100%}
+  footer ul{align-items:center}
+  .f-logo{margin:6px 0}
+  .f-copy{font-size:.74rem;margin-top:0}
+  footer > div:first-child{display:flex;flex-direction:column;align-items:center}
+}
+
+/* ===== SMALL MOBILE ===== */
+@media(max-width:400px){
+  .hero h1{font-size:1.6rem}
+  .badge{font-size:.68rem;padding:5px 11px}
+  .stat-n{font-size:1.7rem}
+  .v-tags{gap:5px}
+  .v-tag{font-size:.72rem;padding:4px 10px}
+}
+
+/* HAMBURGER + MOBILE MENU */
+.hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;background:none;border:none;cursor:pointer;padding:4px;border-radius:8px;transition:background .2s}
+.hamburger:hover{background:var(--primary-light)}
+.hamburger span{display:block;height:2px;border-radius:2px;background:var(--dark);transition:all .3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{
+  display:none;position:fixed;top:70px;left:0;right:0;z-index:998;
+  background:rgba(255,255,255,.97);backdrop-filter:blur(18px);
+  padding:16px 4% 24px;border-bottom:1px solid rgba(21,88,214,.08);
+  flex-direction:column;gap:4px;box-shadow:0 8px 32px rgba(0,0,0,.08);
+}
+.mobile-menu a{text-decoration:none;color:var(--text);font-weight:600;font-size:1rem;padding:12px 16px;border-radius:10px;transition:background .2s,color .2s}
+.mobile-menu a:hover{background:var(--primary-light);color:var(--primary)}
+.mobile-menu.open{display:flex}
+@media(max-width:840px){
+  .hamburger{display:flex}
+  nav ul{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG icon defs -->
+<svg style="display:none"><defs>
+  <symbol id="icon-plus" viewBox="0 0 16 16"><rect x="7" y="2" width="2" height="12" rx="1" fill="currentColor"/><rect x="2" y="7" width="12" height="2" rx="1" fill="currentColor"/></symbol>
+  <symbol id="icon-check" viewBox="0 0 16 16"><path d="M3 8.5L6.5 12 13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+</defs></svg>
+
+<nav id="mainNav">
+  <a class="logo" href="#">
+    <div class="logo-mark">
+      <svg width="16" height="16"><use href="#icon-plus" color="white"/></svg>
+    </div>
+    <span class="logo-name">Szczepimy<span>Się</span>.pl</span>
+  </a>
+  <ul id="navLinks">
+    <li><a href="#jak" onclick="closeMenu()">Jak to działa</a></li>
+    <li><a href="#szczepienia" onclick="closeMenu()">Szczepienia</a></li>
+    <li><a href="#lokalizacje" onclick="closeMenu()">Lokalizacje</a></li>
+    <li><a href="#faq" onclick="closeMenu()">FAQ</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:12px">
+    <a href="#lokalizacje" class="nav-btn">Znajdź aptekę</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#jak" onclick="closeMenu()">Jak to działa</a>
+  <a href="#szczepienia" onclick="closeMenu()">Szczepienia</a>
+  <a href="#lokalizacje" onclick="closeMenu()">Lokalizacje</a>
+  <a href="#faq" onclick="closeMenu()">FAQ</a>
+</div>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="badge"><span class="badge-dot"></span>Autoryzowane Apteczne Punkty Szczepień</div>
+    <h1>Zaszczep się<br><span class="c1">bez kolejek</span><br>w <span class="c2">swojej aptece</span></h1>
+    <p>Kwalifikacja, recepta i szczepienie przez certyfikowanego farmaceutę — wszystko w jednym miejscu, bez skierowania i bez lekarza.</p>
+    <div class="hero-btns">
+      <a href="#lokalizacje" class="btn-primary">Znajdź punkt szczepień</a>
+      <a href="#jak" class="btn-outline">Jak to działa</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="hc-label">Co oferujemy</div>
+      <div class="check-list">
+        <div class="check-item"><div class="check-icon"><svg width="14" height="14"><use href="#icon-check" color="#00c48c"/></svg></div>Bez skierowania od lekarza</div>
+        <div class="check-item"><div class="check-icon"><svg width="14" height="14"><use href="#icon-check" color="#00c48c"/></svg></div>Recepta farmaceutyczna na miejscu</div>
+        <div class="check-item"><div class="check-icon"><svg width="14" height="14"><use href="#icon-check" color="#00c48c"/></svg></div>Wpis do e-Karty Szczepień</div>
+        <div class="check-item"><div class="check-icon"><svg width="14" height="14"><use href="#icon-check" color="#00c48c"/></svg></div>Certyfikat w aplikacji mObywatel</div>
+      </div>
+      <div class="hc-label">Dostępne szczepionki</div>
+      <div class="v-tags">
+        <span class="v-tag">Grypa</span><span class="v-tag">COVID-19</span><span class="v-tag">Tężec</span>
+        <span class="v-tag">WZW A&amp;B</span><span class="v-tag">Pneumokoki</span><span class="v-tag">RSV</span>
+        <span class="v-tag">HPV</span><span class="v-tag">Meningokoki</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stat reveal"><div class="stat-n"><span id="s1">0</span><em>+</em></div><div class="stat-l">Miast w sieci</div></div>
+  <div class="stat reveal"><div class="stat-n"><span id="s2">0</span></div><div class="stat-l">Punktów szczepień</div></div>
+  <div class="stat reveal"><div class="stat-n"><span id="s3">0</span></div><div class="stat-l">Rodzajów szczepień</div></div>
+  <div class="stat reveal"><div class="stat-n"><span id="s4">0</span><em>k+</em></div><div class="stat-l">Zaszczepionych pacjentów</div></div>
+</div>
+
+<section class="section" id="jak">
+  <div class="s-label">Proces</div>
+  <h2 class="s-title">Jak to działa?</h2>
+  <p class="s-sub">Cztery kroki do pełnej ochrony — szybko, bezpiecznie i bez zbędnych formalności.</p>
+  <div class="steps-grid">
+    <div class="step-card reveal"><div class="step-ghost">1</div><div class="step-icon">🩺</div><h3>Kwalifikacja</h3><p>Farmaceuta przeprowadza krótki wywiad medyczny i kwalifikuje Cię do szczepienia.</p></div>
+    <div class="step-card reveal"><div class="step-ghost">2</div><div class="step-icon">📋</div><h3>Recepta</h3><p>Farmaceuta wystawia receptę farmaceutyczną na miejscu — bez wizyty u lekarza.</p></div>
+    <div class="step-card reveal"><div class="step-ghost">3</div><div class="step-icon">💉</div><h3>Szczepienie</h3><p>Certyfikowany farmaceuta przeprowadza szczepienie. Obserwacja 15 min na miejscu.</p></div>
+    <div class="step-card reveal"><div class="step-ghost">4</div><div class="step-icon">📱</div><h3>Certyfikat</h3><p>Wpis trafia automatycznie do e-Karty Szczepień i aplikacji mObywatel.</p></div>
+  </div>
+</section>
+
+<section class="section alt" id="szczepienia">
+  <div class="s-label">Oferta</div>
+  <h2 class="s-title">Dostępne szczepienia</h2>
+  <p class="s-sub">Wybierz kategorię, aby zobaczyć szczepienia dopasowane do Twoich potrzeb.</p>
+  <div class="vac-filters">
+    <button class="vac-filter active" data-cat="all">Wszystkie</button>
+    <button class="vac-filter" data-cat="seasonal">Sezonowe</button>
+    <button class="vac-filter" data-cat="routine">Podstawowe</button>
+    <button class="vac-filter" data-cat="travel">Podróżne</button>
+    <button class="vac-filter" data-cat="child">Dla dzieci</button>
+  </div>
+  <div>
+    <div class="vac-cat active" id="cat-all">
+      <div class="vac-cat-title">Sezonowe</div>
+      <div class="vac-cards">
+        <div class="vac-card"><div class="vac-icon" style="background:#fff3e0">🤧</div><div class="vac-info"><h4>Grypa sezonowa</h4><p>Ochrona przed wirusem grypy. Zalecana co roku, szczególnie jesienią.</p><span class="vac-badge seasonal">Sezonowe</span></div></div>
+        <div class="vac-card"><div class="vac-icon" style="background:#e8f5e9">🦠</div><div class="vac-info"><h4>COVID-19</h4><p>Aktualna szczepionka mRNA. Zalecana dla osób 60+ i grup ryzyka.</p><span class="vac-badge seasonal">Sezonowe</span></div></div>
+        <div class="vac-card"><div class="vac-icon" style="background:#fce4ec">👶</div><div class="vac-info"><h4>RSV</h4><p>Wirus syncytialny dróg oddechowych. Dla niemowląt i seniorów 60+.</p><span class="vac-badge child">Dla dzieci / 60+</span></div></div>
+      </div>
+      <div class="vac-cat-title">Podstawowe</div>
+      <div class="vac-cards">
+        <div class="vac-card"><div class="vac-icon" style="background:var(--primary-light)">🩺</div><div class="vac-info"><h4>Tężec / DTP / dTpa</h4><p>Dawka przypominająca co 10 lat. Ochrona przed tężcem, błonicą i krztuścem.</p><span class="vac-badge required">Podstawowe</span></div></div>
+        <div class="vac-card"><div class="vac-icon" style="background:#e8f5e9">🔬</div><div class="vac-info"><h4>Pneumokoki</h4><p>Ochrona przed zapaleniem płuc i opon mózgowych. Zalecana po 50. r.ż.</p><span class="vac-badge required">Podstawowe</span></div></div>
+        <div class="vac-card"><div class="vac-icon" style="background:#f3e8ff">💊</div><div class="vac-info"><h4>WZW B</h4><p>3-dawkowy cykl ochrony wątroby przed wirusowym zapaleniem.</p><span class="vac-badge required">Podstawowe</span></div></div>
+        <div class="vac-card"><div class="vac-icon" style="background:#fff3e0">🛡️</div><div class="vac-info"><h4>HPV</h4><p>Chroni przed rakiem szyjki macicy i innymi nowotworami związanymi z HPV.</p><span class="vac-badge required">Podstawowe</span></div></div>
+      </div>
+      <div class="vac-cat-title">Podróżne</div>
+      <div class="vac-cards">
+        <div class="vac-card"><div class="vac-icon" style="background:#f3e8ff">🌍</div><div class="vac-info"><h4>WZW A</h4><p>Wymagana przed wyjazdem do krajów tropikalnych i rozwijających się.</p><span class="vac-badge travel">Podróżne</span></div></div>
+        <div class="vac-card"><div class="vac-icon" style="background:#fce4ec">🐕</div><div class="vac-info"><h4>Wścieklizna</h4><p>Szczepienie postekspozycyjne po pokąsaniu. Cykl dawek w terminach.</p><span class="vac-badge travel">Podróżne</span></div></div>
+        <div class="vac-card"><div class="vac-icon" style="background:#e8f5e9">🦟</div><div class="vac-info"><h4>Dur brzuszny / Cholera</h4><p>Dla podróżujących do stref endemicznych Azji, Afryki i Ameryki Pd.</p><span class="vac-badge travel">Podróżne</span></div></div>
+      </div>
+    </div>
+    <div class="vac-cat" id="cat-seasonal"><div class="vac-cards">
+      <div class="vac-card"><div class="vac-icon" style="background:#fff3e0">🤧</div><div class="vac-info"><h4>Grypa sezonowa</h4><p>Ochrona przed wirusem grypy. Zalecana co roku, szczególnie jesienią.</p><span class="vac-badge seasonal">Sezonowe</span></div></div>
+      <div class="vac-card"><div class="vac-icon" style="background:#e8f5e9">🦠</div><div class="vac-info"><h4>COVID-19</h4><p>Aktualna szczepionka mRNA. Zalecana dla osób 60+ i grup ryzyka.</p><span class="vac-badge seasonal">Sezonowe</span></div></div>
+      <div class="vac-card"><div class="vac-icon" style="background:#fce4ec">👶</div><div class="vac-info"><h4>RSV</h4><p>Wirus syncytialny dróg oddechowych. Dla niemowląt i seniorów 60+.</p><span class="vac-badge child">Dla dzieci / 60+</span></div></div>
+    </div></div>
+    <div class="vac-cat" id="cat-routine"><div class="vac-cards">
+      <div class="vac-card"><div class="vac-icon" style="background:var(--primary-light)">🩺</div><div class="vac-info"><h4>Tężec / DTP / dTpa</h4><p>Dawka przypominająca co 10 lat.</p><span class="vac-badge required">Podstawowe</span></div></div>
+      <div class="vac-card"><div class="vac-icon" style="background:#e8f5e9">🔬</div><div class="vac-info"><h4>Pneumokoki</h4><p>Zalecana po 50. roku życia.</p><span class="vac-badge required">Podstawowe</span></div></div>
+      <div class="vac-card"><div class="vac-icon" style="background:#f3e8ff">💊</div><div class="vac-info"><h4>WZW B</h4><p>3-dawkowy cykl ochrony wątroby.</p><span class="vac-badge required">Podstawowe</span></div></div>
+      <div class="vac-card"><div class="vac-icon" style="background:#fff3e0">🛡️</div><div class="vac-info"><h4>HPV</h4><p>Chroni przed nowotworami związanymi z HPV.</p><span class="vac-badge required">Podstawowe</span></div></div>
+    </div></div>
+    <div class="vac-cat" id="cat-travel"><div class="vac-cards">
+      <div class="vac-card"><div class="vac-icon" style="background:#f3e8ff">🌍</div><div class="vac-info"><h4>WZW A</h4><p>Kraje tropikalne i rozwijające się.</p><span class="vac-badge travel">Podróżne</span></div></div>
+      <div class="vac-card"><div class="vac-icon" style="background:#fce4ec">🐕</div><div class="vac-info"><h4>Wścieklizna</h4><p>Postekspozycja po pokąsaniu.</p><span class="vac-badge travel">Podróżne</span></div></div>
+      <div class="vac-card"><div class="vac-icon" style="background:#e8f5e9">🦟</div><div class="vac-info"><h4>Dur brzuszny / Cholera</h4><p>Strefy endemiczne Azji i Afryki.</p><span class="vac-badge travel">Podróżne</span></div></div>
+      <div class="vac-card"><div class="vac-icon" style="background:#fff3e0">🌡️</div><div class="vac-info"><h4>Żółta febra</h4><p>Wymagana przy wjeździe do krajów Afryki i Ameryki Pd.</p><span class="vac-badge travel">Podróżne</span></div></div>
+    </div></div>
+    <div class="vac-cat" id="cat-child"><div class="vac-cards">
+      <div class="vac-card"><div class="vac-icon" style="background:#fce4ec">🔴</div><div class="vac-info"><h4>Ospa wietrzna</h4><p>Dla dzieci niezaszczepionych i podatnych dorosłych.</p><span class="vac-badge child">Dla dzieci</span></div></div>
+      <div class="vac-card"><div class="vac-icon" style="background:var(--primary-light)">🧠</div><div class="vac-info"><h4>Meningokoki</h4><p>Ochrona przed zapaleniem opon. Ważna dla nastolatków.</p><span class="vac-badge child">Dla dzieci</span></div></div>
+      <div class="vac-card"><div class="vac-icon" style="background:#e8f5e9">👶</div><div class="vac-info"><h4>RSV</h4><p>Nowa szczepionka dla niemowląt przeciwko wirusowi syncytialnemu.</p><span class="vac-badge child">Dla dzieci</span></div></div>
+    </div></div>
+  </div>
+</section>
+
+<section class="section" id="lokalizacje">
+  <div class="s-label">Sieć aptek</div>
+  <h2 class="s-title">Znajdź punkt szczepień</h2>
+  <p class="s-sub">Wyszukaj aptekę po nazwie miasta lub wybierz z listy. Kliknij kartę, by otworzyć ją na mapie Google.</p>
+  <div class="search-row reveal">
+    <div class="sg">
+      <label>Wpisz miasto lub nazwę</label>
+      <input type="text" id="sInput" placeholder="np. Toruń, DOZ, Super-Pharm...">
+    </div>
+    <div class="sg">
+      <label>Wybierz miasto</label>
+      <select id="sCity">
+        <option value="">— wszystkie —</option>
+        <option>Toruń</option>
+        <option>Bydgoszcz</option>
+        <option>Włocławek</option>
+        <option>Grudziądz</option>
+        <option>Inowrocław</option>
+      </select>
+    </div>
+    <button class="s-btn" onclick="runSearch()">Szukaj</button>
+    <button class="s-btn reset" onclick="resetSearch()">Wyczyść</button>
+  </div>
+  <div class="loc-layout">
+    <div class="pharm-list" id="pharmList"></div>
+    <div class="map-box">
+      <div class="map-head">
+        <div class="map-head-left">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1558d6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Mapa punktów szczepień</span>
+        </div>
+        <span class="map-count" id="mapCount">12 lokalizacji</span>
+      </div>
+      <iframe id="gmap"
+        src="https://maps.google.com/maps?q=53.05,18.6&output=embed&hl=pl&z=8&t=m"
+        width="100%" height="480" style="border:none;display:block"
+        allowfullscreen loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Mapa punktów szczepień Google Maps">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="faq">
+  <div class="s-label">FAQ</div>
+  <h2 class="s-title">Najczęstsze pytania</h2>
+  <p class="s-sub">Wszystko, co warto wiedzieć przed pierwszą wizytą.</p>
+  <div class="faq-wrap">
+    <div class="faq-item reveal"><button class="faq-btn">Czy potrzebuję skierowania od lekarza?<div class="faq-ico"><svg width="10" height="10"><use href="#icon-plus"/></svg></div></button><div class="faq-body">Nie. Farmaceuta samodzielnie przeprowadza kwalifikację i wystawia receptę farmaceutyczną. Nie musisz odwiedzać lekarza ani umawiać się na wizytę.</div></div>
+    <div class="faq-item reveal"><button class="faq-btn">Czy szczepienie w aptece jest bezpieczne?<div class="faq-ico"><svg width="10" height="10"><use href="#icon-plus"/></svg></div></button><div class="faq-body">Tak. Szczepień dokonują wyłącznie certyfikowani farmaceuci z uprawnieniami i przeszkoleniem z pierwszej pomocy. Punkty spełniają wszystkie wymogi sanitarne.</div></div>
+    <div class="faq-item reveal"><button class="faq-btn">Jak długo trwa cała procedura?<div class="faq-ico"><svg width="10" height="10"><use href="#icon-plus"/></svg></div></button><div class="faq-body">Zazwyczaj 20–30 minut: kilka minut na wywiad, chwila na szczepienie oraz obowiązkowe 15 minut obserwacji po szczepieniu.</div></div>
+    <div class="faq-item reveal"><button class="faq-btn">Czy wpis trafi do e-Karty Szczepień?<div class="faq-ico"><svg width="10" height="10"><use href="#icon-plus"/></svg></div></button><div class="faq-body">Tak. Farmaceuta wprowadza wpis do SIM, który automatycznie pojawia się w aplikacji mObywatel i e-Karcie Szczepień.</div></div>
+    <div class="faq-item reveal"><button class="faq-btn">Czy dzieci mogą być szczepione w aptece?<div class="faq-ico"><svg width="10" height="10"><use href="#icon-plus"/></svg></div></button><div class="faq-body">Dla dzieci poniżej 2. roku życia wymagana jest obecność rodzica lub opiekuna. Farmaceuta poinformuje Cię na miejscu o ewentualnych ograniczeniach wiekowych.</div></div>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Nie czekaj w kolejce do lekarza</h2>
+  <p>Twoja apteka to Twój punkt szczepień. Szybko, blisko, bezpiecznie.</p>
+  <a href="#lokalizacje" class="btn-cta">Znajdź aptekę w swoim mieście</a>
+</section>
+
+<footer>
+  <div>
+    <div style="width:36px;height:36px;background:linear-gradient(135deg,var(--primary),var(--primary-mid));border-radius:9px;display:flex;align-items:center;justify-content:center">
+      <svg width="16" height="16"><use href="#icon-plus" color="white"/></svg>
+    </div>
+    <div class="f-logo">SzczepimySię.pl</div>
+    <p>Sieć aptecznych punktów szczepień w Polsce. Szczepienia bez kolejek, bez skierowania — blisko Ciebie.</p>
+  </div>
+  <div>
+    <h4>Nawigacja</h4>
+    <ul>
+      <li><a href="#jak">Jak to działa</a></li>
+      <li><a href="#szczepienia">Szczepienia</a></li>
+      <li><a href="#lokalizacje">Lokalizacje</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Kontakt</h4>
+    <ul>
+      <li><a href="#">kontakt@szczepimysie.pl</a></li>
+      <li><a href="#">+48 800 000 000</a></li>
+      <li><a href="#">Pn–Pt 8:00–18:00</a></li>
+    </ul>
+  </div>
+  <div class="f-copy">© 2026 SzczepimySię.pl — Strona ma charakter demonstracyjny.</div>
+</footer>
+
+<script>
+const pharmacies = [
+  { name:"Apteka Mika", address:"ul. Watzenrodego 2", city:"Toru\u0144", hours:"Pn\u2013Pt 8\u201320, Sb 8\u201318", phone:"56 621 00 00", lat:53.0102, lng:18.6042, gmaps:"https://maps.google.com/maps?q=Apteka%20Mika%2C%20ul.%20Watzenrodego%202%2C%20Toru%C5%84%2C%20Polska&output=embed&hl=pl&z=16", gmapsLink:"https://www.google.com/maps/search/Apteka%20Mika%2C%20ul.%20Watzenrodego%202%2C%20Toru%C5%84%2C%20Polska" },
+  { name:"Apteka Bliska Tobie", address:"ul. Wojska Polskiego 51", city:"Toru\u0144", hours:"Pn\u2013Pt 8\u201320, Sb 9\u201315", phone:"56 622 11 00", lat:53.018, lng:18.598, gmaps:"https://maps.google.com/maps?q=Apteka%20Bliska%20Tobie%2C%20ul.%20Wojska%20Polskiego%2051%2C%20Toru%C5%84%2C%20Polska&output=embed&hl=pl&z=16", gmapsLink:"https://www.google.com/maps/search/Apteka%20Bliska%20Tobie%2C%20ul.%20Wojska%20Polskiego%2051%2C%20Toru%C5%84%2C%20Polska" },
+  { name:"Super-Pharm Cinema City", address:"ul. Czerwona Droga 1/6", city:"Toru\u0144", hours:"Pn\u2013Nd 9\u201321", phone:"56 648 00 00", lat:53.035, lng:18.611, gmaps:"https://maps.google.com/maps?q=Super-Pharm%20Cinema%20City%2C%20ul.%20Czerwona%20Droga%201/6%2C%20Toru%C5%84%2C%20Polska&output=embed&hl=pl&z=16", gmapsLink:"https://www.google.com/maps/search/Super-Pharm%20Cinema%20City%2C%20ul.%20Czerwona%20Droga%201/6%2C%20Toru%C5%84%2C%20Polska" },
+  { name:"DOZ Apteka Dbam o Zdrowie", address:"ul. Stary Rynek 1", city:"Bydgoszcz", hours:"Pn\u2013Pt 8\u201320, Sb 9\u201316", phone:"52 322 00 47", lat:53.123, lng:18.009, gmaps:"https://maps.google.com/maps?q=DOZ%20Apteka%20Dbam%20o%20Zdrowie%2C%20ul.%20Stary%20Rynek%201%2C%20Bydgoszcz%2C%20Polska&output=embed&hl=pl&z=16", gmapsLink:"https://www.google.com/maps/search/DOZ%20Apteka%20Dbam%20o%20Zdrowie%2C%20ul.%20Stary%20Rynek%201%2C%20Bydgoszcz%2C%20Polska" },
+  { name:"Apteka Gemini", address:"ul. Gda\u0144ska 1/2", city:"Bydgoszcz", hours:"Pn\u2013Pt 8\u201320, Sb 9\u201315", phone:"52 321 44 14", lat:53.1255, lng:18.003, gmaps:"https://maps.google.com/maps?q=Apteka%20Gemini%2C%20ul.%20Gda%C5%84ska%201/2%2C%20Bydgoszcz%2C%20Polska&output=embed&hl=pl&z=16", gmapsLink:"https://www.google.com/maps/search/Apteka%20Gemini%2C%20ul.%20Gda%C5%84ska%201/2%2C%20Bydgoszcz%2C%20Polska" },
+  { name:"Super-Pharm Focus Mall", address:"ul. Jagiello\u0144ska 39-47", city:"Bydgoszcz", hours:"Pn\u2013Nd 9\u201321", phone:"52 348 00 00", lat:53.114, lng:17.999, gmaps:"https://maps.google.com/maps?q=Super-Pharm%20Focus%20Mall%2C%20ul.%20Jagiello%C5%84ska%2039-47%2C%20Bydgoszcz%2C%20Polska&output=embed&hl=pl&z=16", gmapsLink:"https://www.google.com/maps/search/Super-Pharm%20Focus%20Mall%2C%20ul.%20Jagiello%C5%84ska%2039-47%2C%20Bydgoszcz%2C%20Polska" },
+  { name:"DOZ Apteka", address:"ul. Ko\u015bciuszki 7", city:"W\u0142oc\u0142awek", hours:"Pn\u2013Pt 8\u201319, Sb 9\u201314", phone:"54 232 30 00", lat:52.6484, lng:19.0654, gmaps:"https://maps.google.com/maps?q=DOZ%20Apteka%2C%20ul.%20Ko%C5%9Bciuszki%207%2C%20W%C5%82oc%C5%82awek%2C%20Polska&output=embed&hl=pl&z=16", gmapsLink:"https://www.google.com/maps/search/DOZ%20Apteka%2C%20ul.%20Ko%C5%9Bciuszki%207%2C%20W%C5%82oc%C5%82awek%2C%20Polska" },
+  { name:"Apteka Wsp\u00f3\u0142czesna", address:"ul. 3 Maja 2", city:"W\u0142oc\u0142awek", hours:"Pn\u2013Pt 8\u201318", phone:"54 232 10 50", lat:52.652, lng:19.061, gmaps:"https://maps.google.com/maps?q=Apteka%20Wsp%C3%B3%C5%82czesna%2C%20ul.%203%20Maja%202%2C%20W%C5%82oc%C5%82awek%2C%20Polska&output=embed&hl=pl&z=16", gmapsLink:"https://www.google.com/maps/search/Apteka%20Wsp%C3%B3%C5%82czesna%2C%20ul.%203%20Maja%202%2C%20W%C5%82oc%C5%82awek%2C%20Polska" },
+  { name:"Apteka Farmacja 24", address:"ul. Che\u0142mi\u0144ska 68", city:"Grudzi\u0105dz", hours:"Pn\u2013Pt 8\u201322, Sb 8\u201316", phone:"56 462 00 00", lat:53.482, lng:18.753, gmaps:"https://maps.google.com/maps?q=Apteka%20Farmacja%2024%2C%20ul.%20Che%C5%82mi%C5%84ska%2068%2C%20Grudzi%C4%85dz%2C%20Polska&output=embed&hl=pl&z=16", gmapsLink:"https://www.google.com/maps/search/Apteka%20Farmacja%2024%2C%20ul.%20Che%C5%82mi%C5%84ska%2068%2C%20Grudzi%C4%85dz%2C%20Polska" },
+  { name:"DOZ Apteka Rydygiera", address:"ul. dr. L. Rydygiera 15/17", city:"Grudzi\u0105dz", hours:"Ca\u0142\u0105 dob\u0119", phone:"56 641 35 60", lat:53.476, lng:18.762, gmaps:"https://maps.google.com/maps?q=DOZ%20Apteka%20Rydygiera%2C%20ul.%20dr.%20L.%20Rydygiera%2015/17%2C%20Grudzi%C4%85dz%2C%20Polska&output=embed&hl=pl&z=16", gmapsLink:"https://www.google.com/maps/search/DOZ%20Apteka%20Rydygiera%2C%20ul.%20dr.%20L.%20Rydygiera%2015/17%2C%20Grudzi%C4%85dz%2C%20Polska" },
+  { name:"Apteka od Serca", address:"ul. Toru\u0144ska 2/4", city:"Grudzi\u0105dz", hours:"Pn\u2013Pt 8\u201318, Sb 9\u201313", phone:"56 471 80 30", lat:53.485, lng:18.749, gmaps:"https://maps.google.com/maps?q=Apteka%20od%20Serca%2C%20ul.%20Toru%C5%84ska%202/4%2C%20Grudzi%C4%85dz%2C%20Polska&output=embed&hl=pl&z=16", gmapsLink:"https://www.google.com/maps/search/Apteka%20od%20Serca%2C%20ul.%20Toru%C5%84ska%202/4%2C%20Grudzi%C4%85dz%2C%20Polska" },
+  { name:"Apteka Vita", address:"ul. Roosevelta 26", city:"Inowroc\u0142aw", hours:"Pn\u2013Pt 8\u201319, Sb 9\u201313", phone:"52 352 44 22", lat:52.7975, lng:18.2618, gmaps:"https://maps.google.com/maps?q=Apteka%20Vita%2C%20ul.%20Roosevelta%2026%2C%20Inowroc%C5%82aw%2C%20Polska&output=embed&hl=pl&z=16", gmapsLink:"https://www.google.com/maps/search/Apteka%20Vita%2C%20ul.%20Roosevelta%2026%2C%20Inowroc%C5%82aw%2C%20Polska" },
+];
+
+const listEl = document.getElementById('pharmList');
+
+function buildList(data){
+  listEl.innerHTML = '';
+  if(!data.length){ listEl.innerHTML='<div class="no-res">Brak wyników dla podanego kryterium.</div>'; return; }
+  data.forEach(p=>{
+    const idx = pharmacies.indexOf(p);
+    const d = document.createElement('div');
+    d.className='pcard'; d.dataset.idx=idx;
+    d.innerHTML=`
+      <div class="p-top"><div class="p-name">${p.name}</div><span class="p-city">${p.city}</span></div>
+      <div class="p-addr">${p.address}, ${p.city}</div>
+      <div class="p-row">
+        <span class="p-hours">${p.hours}</span>
+        <div class="p-links">
+          <a class="p-phone" href="tel:${p.phone}" onclick="event.stopPropagation()">${p.phone}</a>
+          <a class="p-gmaps" href="${p.gmapsLink}" target="_blank" onclick="event.stopPropagation()">Google Maps ↗</a>
+        </div>
+      </div>`;
+    d.addEventListener('click',()=>selectPharm(idx));
+    listEl.appendChild(d);
+  });
+  document.getElementById('mapCount').textContent = data.length+' lokalizacji';
+}
+buildList(pharmacies);
+
+function selectPharm(idx){
+  document.querySelectorAll('.pcard').forEach(c=>c.classList.remove('active'));
+  const card=document.querySelector(`.pcard[data-idx="${idx}"]`);
+  if(card){ card.classList.add('active'); card.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+  const p = pharmacies[idx];
+  // Use ll= (exact coords) + q= (label) — shows single pin at exact location
+  const label = encodeURIComponent(p.name + ', ' + p.address + ', ' + p.city);
+  document.getElementById('gmap').src =
+    `https://maps.google.com/maps?ll=${p.lat},${p.lng}&q=${label}&output=embed&hl=pl&z=17&t=m`;
+}
+
+function runSearch(){
+  const txt=document.getElementById('sInput').value.trim().toLowerCase();
+  const city=document.getElementById('sCity').value.toLowerCase();
+  const f=pharmacies.filter(p=>
+    (!txt||p.city.toLowerCase().includes(txt)||p.name.toLowerCase().includes(txt)||p.address.toLowerCase().includes(txt))
+    &&(!city||p.city.toLowerCase()===city)
+  );
+  buildList(f);
+  if(f.length===1) selectPharm(pharmacies.indexOf(f[0]));
+}
+document.getElementById('sInput').addEventListener('keydown',e=>{if(e.key==='Enter')runSearch();});
+document.getElementById('sCity').addEventListener('change',runSearch);
+
+function resetSearch(){
+  document.getElementById('sInput').value='';
+  document.getElementById('sCity').value='';
+  buildList(pharmacies);
+  document.getElementById('gmap').src='https://maps.google.com/maps?q=53.05,18.6&output=embed&hl=pl&z=8&t=m';
+}
+
+document.querySelectorAll('.vac-filter').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.vac-filter').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.vac-cat').forEach(c=>c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('cat-'+btn.dataset.cat).classList.add('active');
+  });
+});
+
+document.querySelectorAll('.faq-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.parentElement;
+    const open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!open) item.classList.add('open');
+  });
+});
+
+window.addEventListener('scroll',()=>document.getElementById('mainNav').classList.toggle('scrolled',scrollY>40));
+
+function countUp(id,target){let n=0;const step=Math.ceil(target/50);const t=setInterval(()=>{n=Math.min(n+step,target);document.getElementById(id).textContent=n;if(n>=target)clearInterval(t);},28);}
+new IntersectionObserver(e=>{if(e[0].isIntersecting){countUp('s1',5);countUp('s2',12);countUp('s3',8);countUp('s4',32);}},{threshold:.5}).observe(document.querySelector('.stats-bar'));
+
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+function toggleMenu(){
+  const m=document.getElementById('mobileMenu');
+  const h=document.getElementById('hamburger');
+  m.classList.toggle('open');
+  h.classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+</script>
+</body>
+</html>
