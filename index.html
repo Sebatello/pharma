@@ -53,7 +53,7 @@ nav ul a:hover::after{transform:scaleX(1)}
 }
 .hero-bg{
   position:absolute;inset:0;
-  background:url('apteka1.png') center center / cover no-repeat;
+  background:url('farmacja 24 bg.png') center center / cover no-repeat;
   z-index:0;
 }
 .hero-overlay{
@@ -274,6 +274,166 @@ footer ul a:hover{color:var(--white)}
   .hamburger{display:flex}
   nav ul{display:none!important}
 }
+
+/* ===== MAPA SZCZEPIEŃ ===== */
+#chartdiv {
+  width: 100%;
+  height: 540px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+  background: #d6eaf8;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin: 18px 0 0 0;
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #333;
+}
+.legend-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+}
+.badge-O { background: #c0392b; }
+.badge-Z { background: #147d6f; }
+.badge-R { background: #e67e22; }
+.badge-S { background: #8e8e8e; }
+#vax-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+#vax-modal-overlay.active { display: flex; }
+#vax-modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px 32px;
+  max-width: 520px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+  position: relative;
+  animation: modalIn 0.2s ease;
+}
+@keyframes modalIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+#vax-modal h3 {
+  color: #147d6f;
+  font-size: 22px;
+  margin-bottom: 16px;
+  padding-right: 30px;
+}
+.modal-close {
+  position: absolute;
+  top: 14px; right: 18px;
+  background: none;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  color: #aaa;
+  line-height: 1;
+  transition: color 0.15s;
+}
+.modal-close:hover { color: #147d6f; }
+#vax-modal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+#vax-modal table th {
+  background: #147d6f;
+  color: #fff;
+  padding: 9px 12px;
+  text-align: left;
+  font-weight: 600;
+}
+#vax-modal table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+#vax-modal table tr:last-child td { border-bottom: none; }
+#vax-modal table tr:hover td { background: #f0fbf8; }
+.vax-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+}
+.vax-O { background: #c0392b; }
+.vax-Z { background: #147d6f; }
+.vax-R { background: #e67e22; }
+.vax-S { background: #8e8e8e; }
+.no-data {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+  padding: 20px 0;
+}
+.modal-note {
+  margin-top: 14px;
+  padding: 11px 14px;
+  background: #f0f9f7;
+  border-left: 4px solid #147d6f;
+  border-radius: 0 8px 8px 0;
+  font-size: 12px;
+  color: #555;
+  line-height: 1.6;
+}
+@media (max-width: 600px) {
+  #chartdiv { height: 320px; }
+  #vax-modal { padding: 20px 18px; }
+}
+
+.logo-img {
+  height: 85px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+@media (max-width: 840px) {
+  .logo-img {
+    height: 30px;
+  }
+}
+
+.f-logo-img {
+  height: 100px;
+  width: auto;
+  display: block;
+  margin: 10px 0 8px;
+  /* opcjonalnie jeśli logo jest ciemne i niewidoczne na czarnym tle stopki: */
+  filter: brightness(0) invert(1);
+}
 </style>
 </head>
 <body>
@@ -288,11 +448,12 @@ footer ul a:hover{color:var(--white)}
 </defs></svg>
 
 <nav id="mainNav">
-  <a class="logo" href="#">
-    <span class="logo-name">Farmacja<span> 24</span></span>
-  </a>
+    <a class="logo" href="#">
+      <img src="Farmacja 24 logo.png" alt="Farmacja 24" class="logo-img">
+    </a>
   <ul id="navLinks">
     <li><a href="#jak" onclick="closeMenu()">Jak to działa</a></li>
+    <li><a href="#mapa-szczepien" onclick="closeMenu()">Mapa szczepień</a></li>
     <li><a href="#szczepienia" onclick="closeMenu()">Dostępne szczepienia</a></li>
     <li><a href="#lokalizacje" onclick="closeMenu()">Apteki</a></li>
     <li><a href="#faq" onclick="closeMenu()">FAQ</a></li>
@@ -330,7 +491,7 @@ footer ul a:hover{color:var(--white)}
           Szczepienia
         </a>
         <a href="#szczepienia" class="btn-service">
-          Testy diagnostyczne
+          Badania diagnostyczne
         </a>
         <a href="#szczepienia" class="btn-service">
           Asortyment
@@ -356,12 +517,37 @@ footer ul a:hover{color:var(--white)}
   <h2 class="s-title">Jak to działa?</h2>
   <p class="s-sub">Cztery kroki do pełnej ochrony zdrowia — szybko, bezpiecznie i bez zbędnych formalności.</p>
   <div class="steps-grid">
-    <div class="step-card reveal"><div class="step-ghost">1</div><div class="step-icon">🩺</div><h3>Kwalifikacja</h3><p>Farmaceuta przeprowadza krótki wywiad i kwalifikuje Cię do usługi lub szczepienia.</p></div>
-    <div class="step-card reveal"><div class="step-ghost">2</div><div class="step-icon">📋</div><h3>Recepta</h3><p>Farmaceuta wystawia receptę farmaceutyczną na miejscu — bez wizyty u lekarza.</p></div>
-    <div class="step-card reveal"><div class="step-ghost">3</div><div class="step-icon">💉</div><h3>Szczepienie / Usługa</h3><p>Certyfikowany farmaceuta wykonuje szczepienie lub usługę. Obserwacja na miejscu.</p></div>
-    <div class="step-card reveal"><div class="step-ghost">4</div><div class="step-icon">📱</div><h3>Certyfikat</h3><p>Wpis trafia automatycznie do e-Karty Szczepień i aplikacji mObywatel.</p></div>
+    <div class="step-card reveal"><div class="step-ghost">1</div><div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path fill="#147d6f" d="M64 112C64 85.5 85.5 64 112 64L160 64C177.7 64 192 78.3 192 96C192 113.7 177.7 128 160 128L128 128L128 256C128 309 171 352 224 352C277 352 320 309 320 256L320 128L288 128C270.3 128 256 113.7 256 96C256 78.3 270.3 64 288 64L336 64C362.5 64 384 85.5 384 112L384 256C384 333.4 329 398 256 412.8L256 432C256 493.9 306.1 544 368 544C429.9 544 480 493.9 480 432L480 346.5C442.7 333.3 416 297.8 416 256C416 203 459 160 512 160C565 160 608 203 608 256C608 297.8 581.3 333.4 544 346.5L544 432C544 529.2 465.2 608 368 608C270.8 608 192 529.2 192 432L192 412.8C119 398 64 333.4 64 256L64 112zM512 288C529.7 288 544 273.7 544 256C544 238.3 529.7 224 512 224C494.3 224 480 238.3 480 256C480 273.7 494.3 288 512 288z"/></svg></div><h3>Kwalifikacja</h3><p>Farmaceuta przeprowadza krótki wywiad i kwalifikuje Cię do usługi lub szczepienia.</p></div>
+    <div class="step-card reveal"><div class="step-ghost">2</div><div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path fill="#147d6f" d="M142 66.2C150.5 62.3 160.5 63.7 167.6 69.8L208 104.4L248.4 69.8C257.4 62.1 270.7 62.1 279.6 69.8L320 104.4L360.4 69.8C369.4 62.1 382.6 62.1 391.6 69.8L432 104.4L472.4 69.8C479.5 63.7 489.5 62.3 498 66.2C506.5 70.1 512 78.6 512 88L512 552C512 561.4 506.5 569.9 498 573.8C489.5 577.7 479.5 576.3 472.4 570.2L432 535.6L391.6 570.2C382.6 577.9 369.4 577.9 360.4 570.2L320 535.6L279.6 570.2C270.6 577.9 257.3 577.9 248.4 570.2L208 535.6L167.6 570.2C160.5 576.3 150.5 577.7 142 573.8C133.5 569.9 128 561.4 128 552L128 88C128 78.6 133.5 70.1 142 66.2zM232 200C218.7 200 208 210.7 208 224C208 237.3 218.7 248 232 248L408 248C421.3 248 432 237.3 432 224C432 210.7 421.3 200 408 200L232 200zM208 416C208 429.3 218.7 440 232 440L408 440C421.3 440 432 429.3 432 416C432 402.7 421.3 392 408 392L232 392C218.7 392 208 402.7 208 416zM232 296C218.7 296 208 306.7 208 320C208 333.3 218.7 344 232 344L408 344C421.3 344 432 333.3 432 320C432 306.7 421.3 296 408 296L232 296z"/></svg></div><h3>Recepta</h3><p>Farmaceuta wystawia receptę farmaceutyczną na miejscu — bez wizyty u lekarza.</p></div>
+    <div class="step-card reveal"><div class="step-ghost">3</div><div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path fill="#147d6f" d="M529.5 47C520.1 37.6 504.9 37.6 495.6 47C486.3 56.4 486.2 71.6 495.6 80.9L510.6 95.9L464.5 142L401.5 79C392.1 69.6 376.9 69.6 367.6 79C358.3 88.4 358.2 103.6 367.6 112.9L374.6 119.9L296.5 198L337.5 239C346.9 248.4 346.9 263.6 337.5 272.9C328.1 282.2 312.9 282.3 303.6 272.9L262.6 231.9L216.5 278L257.5 319C266.9 328.4 266.9 343.6 257.5 352.9C248.1 362.2 232.9 362.3 223.6 352.9L182.6 311.9L144.9 349.6C134.4 360.1 128.5 374.3 128.5 389.2L128.5 478L71.5 535C62.1 544.4 62.1 559.6 71.5 568.9C80.9 578.2 96.1 578.3 105.4 568.9L162.4 511.9L251.2 511.9C266.1 511.9 280.3 506 290.8 495.5L520.5 265.8L527.5 272.8C536.9 282.2 552.1 282.2 561.4 272.8C570.7 263.4 570.8 248.2 561.4 238.9L498.4 175.9L544.5 129.8L559.5 144.8C568.9 154.2 584.1 154.2 593.4 144.8C602.7 135.4 602.8 120.2 593.4 110.9L529.4 46.9z"/></svg></div><h3>Szczepienie / Usługa</h3><p>Certyfikowany farmaceuta wykonuje szczepienie lub usługę. Obserwacja na miejscu.</p></div>
+    <div class="step-card reveal"><div class="step-ghost">4</div><div class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path fill="#147d6f" d="M128 128C128 92.7 156.7 64 192 64L341.5 64C358.5 64 374.8 70.7 386.8 82.7L493.3 189.3C505.3 201.3 512 217.6 512 234.6L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 128zM336 122.5L336 216C336 229.3 346.7 240 360 240L453.5 240L336 122.5zM288 344L288 384L248 384C239.2 384 232 391.2 232 400L232 432C232 440.8 239.2 448 248 448L288 448L288 488C288 496.8 295.2 504 304 504L336 504C344.8 504 352 496.8 352 488L352 448L392 448C400.8 448 408 440.8 408 432L408 400C408 391.2 400.8 384 392 384L352 384L352 344C352 335.2 344.8 328 336 328L304 328C295.2 328 288 335.2 288 344z"/></svg></div><h3>Certyfikat</h3><p>Wpis trafia automatycznie do e-Karty Szczepień i aplikacji mObywatel.</p></div>
   </div>
 </section>
+
+<!-- ===================== MAPA SZCZEPIEŃ ===================== -->
+<section class="section" id="mapa-szczepien">
+  <div class="s-label">Podróże</div>
+  <h2 class="s-title">Mapa zalecanych szczepień</h2>
+  <p class="s-sub">Kliknij na kraj, aby zobaczyć zalecane szczepienia dla podróżnych z Polski</p>
+
+  <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+  <div id="chartdiv"></div>
+
+</section>
+
+<!-- Modal szczepień -->
+<div id="vax-modal-overlay">
+  <div id="vax-modal">
+    <button class="modal-close" onclick="closeModal()" title="Zamknij">&times;</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+
 
 <section class="section alt" id="szczepienia">
   <div class="s-label">Oferta</div>
@@ -513,7 +699,7 @@ footer ul a:hover{color:var(--white)}
 
 <footer>
   <div>
-    <div class="f-logo">Farmacja 24</div>
+    <img src="Farmacja 24 logo białe.png" alt="Farmacja 24" class="f-logo-img">
     <p>Sieć aptek skupiona na Twoim zdrowiu. Szczepienia, opieka farmaceutyczna i badania — blisko Ciebie.</p>
   </div>
   <div>
@@ -802,5 +988,121 @@ statsObs.observe(document.querySelector('.stats-bar'));
 // Wywołanie początkowe mapy
 updateView();
 </script>
+
+<script>
+var countriesData = {"AF": {"name": "Afganistan", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Cholera": "R", "COVID-19": "Z", "Malaria": "R"}}, "AL": {"name": "Albania", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "Kleszczowe zapalenie mózgu": "R", "COVID-19": "Z"}}, "DZ": {"name": "Algieria", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "AD": {"name": "Andora", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "AO": {"name": "Angola", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "AG": {"name": "Antigua i Barbuda", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "SA": {"name": "Arabia Saudyjska", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z"}}, "AR": {"name": "Argentyna", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "AM": {"name": "Armenia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "AU": {"name": "Australia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "AT": {"name": "Austria", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Kleszczowe zapalenie mózgu": "R", "COVID-19": "Z"}}, "AZ": {"name": "Azerbejdżan", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "BS": {"name": "Bahama, W-py", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "BH": {"name": "Bahrajn", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "BD": {"name": "Bangladesz", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "BB": {"name": "Barbados", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "BE": {"name": "Belgia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "BZ": {"name": "Belize", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "BJ": {"name": "Benin", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "BM": {"name": "Bermudy, W-py", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "BT": {"name": "Bhutan", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "BY": {"name": "Białoruś", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "BO": {"name": "Boliwia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "BA": {"name": "Bośnia i Hercegowina", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "BW": {"name": "Botswana", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "BR": {"name": "Brazylia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "BN": {"name": "Brunei", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "BG": {"name": "Bułgaria", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "BF": {"name": "Burkina Faso", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "BI": {"name": "Burundi", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "CL": {"name": "Chile", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "CN": {"name": "Chiny", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "COVID-19": "Z", "Malaria": "R"}}, "HR": {"name": "Chorwacja", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "Malaria": "Z"}}, "TD": {"name": "Czad", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "ME": {"name": "Czarnogóra", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "CZ": {"name": "Czechy", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "Malaria": "Z"}}, "DK": {"name": "Dania", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "DM": {"name": "Dominika", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "DO": {"name": "Dominikana", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "DJ": {"name": "Dżibuti", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "EG": {"name": "Egipt", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "EC": {"name": "Ekwador", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "ER": {"name": "Erytrea", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "EE": {"name": "Estonia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "Malaria": "Z"}}, "ET": {"name": "Etiopia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "FJ": {"name": "Fidżi", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "PH": {"name": "Filipiny", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "COVID-19": "Z", "Malaria": "R"}}, "FI": {"name": "Finlandia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Kleszczowe zapalenie mózgu": "R", "COVID-19": "Z"}}, "FR": {"name": "Francja", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "GA": {"name": "Gabon", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "GM": {"name": "Gambia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "GH": {"name": "Ghana", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "GR": {"name": "Grecja", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "GD": {"name": "Grenada", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "GE": {"name": "Gruzja", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "GY": {"name": "Gujana", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "GT": {"name": "Gwatemala", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "GN": {"name": "Gwinea", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "GW": {"name": "Gwinea Bissau", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "GQ": {"name": "Gwinea Równikowa", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "HT": {"name": "Haiti", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "ES": {"name": "Hiszpania", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "NL": {"name": "Holandia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "HN": {"name": "Honduras", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "IN": {"name": "Indie", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "COVID-19": "Z", "Malaria": "R"}}, "ID": {"name": "Indonezja", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "COVID-19": "Z", "Malaria": "R"}}, "IQ": {"name": "Irak", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "IR": {"name": "Iran", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "IE": {"name": "Irlandia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "IS": {"name": "Islandia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "IL": {"name": "Izrael", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "JM": {"name": "Jamajka", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "JP": {"name": "Japonia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "R", "Malaria": "Z"}}, "YE": {"name": "Jemen", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "JO": {"name": "Jordania", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "KH": {"name": "Kambodża", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "COVID-19": "Z", "Malaria": "R"}}, "CM": {"name": "Kamerun", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "CA": {"name": "Kanada", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "QA": {"name": "Katar", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "KZ": {"name": "Kazachstan", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "KE": {"name": "Kenia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "KG": {"name": "Kirgistan", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "KI": {"name": "Kiribati", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "CO": {"name": "Kolumbia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "KM": {"name": "Komory", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "CG": {"name": "Kongo", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "KR": {"name": "Korea Południowa", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "COVID-19": "R", "Malaria": "Z"}}, "KP": {"name": "Korea Północna", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "R", "Malaria": "Z"}}, "CR": {"name": "Kostaryka", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "CU": {"name": "Kuba", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "KW": {"name": "Kuwejt", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "LA": {"name": "Laos", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "COVID-19": "Z", "Malaria": "R"}}, "LS": {"name": "Lesotho", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "LB": {"name": "Liban", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "LR": {"name": "Liberia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "LY": {"name": "Libia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "LT": {"name": "Litwa", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "Malaria": "Z"}}, "LU": {"name": "Luksemburg", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "LV": {"name": "Łotwa", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "Malaria": "Z"}}, "MK": {"name": "Macedonia Północna", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "MG": {"name": "Madagaskar", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "MW": {"name": "Malawi", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "MV": {"name": "Malediwy", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "MY": {"name": "Malezja", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "COVID-19": "Z", "Malaria": "R"}}, "ML": {"name": "Mali", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "MT": {"name": "Malta", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "MA": {"name": "Maroko", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "MR": {"name": "Mauretania", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "MU": {"name": "Mauritius", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "MX": {"name": "Meksyk", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "MD": {"name": "Mołdawia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "MN": {"name": "Mongolia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "MZ": {"name": "Mozambik", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "NA": {"name": "Namibia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "NR": {"name": "Nauru", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "NP": {"name": "Nepal", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "COVID-19": "Z", "Malaria": "R"}}, "DE": {"name": "Niemcy", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Kleszczowe zapalenie mózgu": "R", "COVID-19": "Z"}}, "NE": {"name": "Niger", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "NG": {"name": "Nigeria", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "NI": {"name": "Nikaragua", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "NU": {"name": "Niue", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "NO": {"name": "Norwegia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "NZ": {"name": "Nowa Zelandia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "OM": {"name": "Oman", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "PK": {"name": "Pakistan", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "PA": {"name": "Panama", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "PG": {"name": "Papua Nowa Gwinea", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "PY": {"name": "Paragwaj", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "PE": {"name": "Peru", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "PT": {"name": "Portugalia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "RU": {"name": "Rosja", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "Malaria": "Z"}}, "RO": {"name": "Rumunia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "SV": {"name": "Salwador", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "WS": {"name": "Samoa", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "SN": {"name": "Senegal", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "RS": {"name": "Serbia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "SL": {"name": "Sierra Leone", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "SG": {"name": "Singapur", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "SK": {"name": "Słowacja", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "Malaria": "Z"}}, "SI": {"name": "Słowenia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "Malaria": "Z"}}, "SO": {"name": "Somalia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "LK": {"name": "Sri Lanka", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "US": {"name": "Stany Zjednoczone", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "SD": {"name": "Sudan", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "SS": {"name": "Sudan Południowy", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "SR": {"name": "Surinam", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "CH": {"name": "Szwajcaria", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Kleszczowe zapalenie mózgu": "R", "COVID-19": "Z"}}, "SE": {"name": "Szwecja", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Kleszczowe zapalenie mózgu": "R", "COVID-19": "Z"}}, "SY": {"name": "Syria", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "TJ": {"name": "Tadżykistan", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "TH": {"name": "Tajlandia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "COVID-19": "Z", "Malaria": "R"}}, "TZ": {"name": "Tanzania", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "TL": {"name": "Timor Wschodni", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "TG": {"name": "Togo", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "TT": {"name": "Trynidad i Tobago", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "TN": {"name": "Tunezja", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "TR": {"name": "Turcja", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "TM": {"name": "Turkmenistan", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "TV": {"name": "Tuvalu", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "UG": {"name": "Uganda", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "UA": {"name": "Ukraina", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "UY": {"name": "Urugwaj", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "UZ": {"name": "Uzbekistan", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "VU": {"name": "Vanuatu", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "VE": {"name": "Wenezuela", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "HU": {"name": "Węgry", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "GB": {"name": "Wielka Brytania", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "VN": {"name": "Wietnam", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "COVID-19": "Z", "Malaria": "R"}}, "IT": {"name": "Włochy", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Kleszczowe zapalenie mózgu": "R", "COVID-19": "Z"}}, "CI": {"name": "Wybrzeże Kości Słoniowej", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "ZM": {"name": "Zambia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "ZW": {"name": "Zimbabwe", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "MM": {"name": "Birma (Myanmar)", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Japońskie zapalenie mózgu": "R", "COVID-19": "Z", "Malaria": "R"}}, "CK": {"name": "Cooka, W-py", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "CY": {"name": "Cypr", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "VI": {"name": "Dziewicze, W-py", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "SZ": {"name": "Eswatini (Suazi)", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "FK": {"name": "Falklandy (Malwiny)", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "GI": {"name": "Gibraltar", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "GL": {"name": "Grenlandia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "GU": {"name": "Guam", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "GF": {"name": "Gujana Francuska", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "GP": {"name": "Gwadelupa", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "HK": {"name": "Hongkong", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "KY": {"name": "Kajmany", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "CD": {"name": "Kongo, Dem. Rep.", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "Zakażenia meningokokowe": "R", "COVID-19": "Z", "Malaria": "R"}}, "LI": {"name": "Lichtenstein", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Kleszczowe zapalenie mózgu": "R", "COVID-19": "Z"}}, "MQ": {"name": "Martynika", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "MC": {"name": "Monako", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "MS": {"name": "Montserrat", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "NC": {"name": "Nowa Kaledonia", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "PN": {"name": "Pitcairn", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "PF": {"name": "Polinezja Francuska", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "PR": {"name": "Portoryko", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "ZA": {"name": "Rep. Południowej Afryki", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "CF": {"name": "Rep. Środkowoafrykańska", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "Żółta febra": "O", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "CV": {"name": "Rep. Zielonego Przylądka", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "RE": {"name": "Reunion", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}, "RW": {"name": "Ruanda", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "Dur brzuszny": "R", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "SB": {"name": "Salomona, W-py", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z", "Malaria": "R"}}, "SM": {"name": "San Marino", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Malaria": "Z"}}, "SC": {"name": "Seszele", "vaccines": {"Szczepienia rutynowe": "Z", "Poliomyelitis": "Z", "WZW typu B": "Z", "WZW typu A": "Z", "Wścieklizna": "R", "COVID-19": "Z"}}};
+
+var legendDesc = {
+  'O': 'Obowiązkowe',
+  'Z': 'Zalecane (większość)',
+  'R': 'Zalecane (wybrani)',
+  'S': 'Można rozważyć'
+};
+
+function getBadgeClass(val) {
+  var v = val.replace('*','').trim();
+  if (v === 'O') return 'vax-O';
+  if (v === 'Z') return 'vax-Z';
+  if (v === 'R') return 'vax-R';
+  return 'vax-S';
+}
+
+function openModal(code) {
+  var data = countriesData[code];
+  var content = '';
+
+  if (!data) {
+    content = '<h3>Brak danych</h3><p class="no-data">Brak danych szczepień dla tego kraju w bazie.</p>';
+  } else {
+    var vax = data.vaccines;
+    var keys = Object.keys(vax);
+    var hasYellowStar = vax['Żółta febra'] && vax['Żółta febra'].includes('*');
+
+    var rows = keys.map(function(k) {
+      var v = vax[k];
+      var displayVal = v.replace('*','').trim();
+      var badgeClass = getBadgeClass(v);
+      var desc = legendDesc[displayVal] || v;
+      var starMark = v.includes('*') ? ' <span style="color:#8e44ad;font-weight:bold">*</span>' : '';
+      return '<tr><td>' + k + '</td><td style="text-align:center"><span class="vax-badge ' + badgeClass + '">' + displayVal + '</span></td><td>' + desc + starMark + '</td></tr>';
+    }).join('');
+
+    var tableHtml = keys.length === 0
+      ? '<p class="no-data">Brak szczepień wymaganych lub zalecanych.</p>'
+      : '<table><thead><tr><th>Szczepienie</th><th> </th><th>Zalecenie</th></tr></thead><tbody>' + rows + '</tbody></table>';
+
+    var starNote = hasYellowStar
+      ? '<div class="modal-note">* Kraj wymaga szczepienia przeciwko żółtej febrze od osób przyjeżdżających z regionów jej występowania. Obowiązek <strong>nie dotyczy</strong> podróżujących z Polski.</div>'
+      : '';
+
+    content = '<h3>' + data.name + '</h3>'
+      + tableHtml
+      + starNote
+;
+  }
+
+  document.getElementById('modal-content').innerHTML = content;
+  document.getElementById('vax-modal-overlay').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('vax-modal-overlay').classList.remove('active');
+}
+
+document.getElementById('vax-modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ── amCharts 5 init ──────────────────────────────────────────
+var root = am5.Root.new("chartdiv");
+root.setThemes([am5themes_Animated.new(root)]);
+
+// Ukryj logo amcharts (opcjonalnie — wymaga licencji dla ukrycia)
+root._logo.dispose();
+
+var chart = root.container.children.push(
+  am5map.MapChart.new(root, {
+    projection: am5map.geoNaturalEarth1(),
+    panX: "translateX",
+    panY: "translateY",
+    wheelY: "zoom"
+  })
+);
+
+var polygonSeries = chart.series.push(
+  am5map.MapPolygonSeries.new(root, {
+    geoJSON: am5geodata_worldLow,
+    stroke: am5.color(0xffffff)
+  })
+);
+
+polygonSeries.mapPolygons.template.setAll({
+  strokeWidth: 0.5,
+  interactive: true,
+  fill: am5.color(0x168576),
+  fillOpacity: 0.88
+});
+
+polygonSeries.mapPolygons.template.adapters.add("tooltipText", function(text, target) {
+  var id = target.dataItem && target.dataItem.get("id");
+  if (id && countriesData[id]) return countriesData[id].name;
+  return text;
+});
+
+polygonSeries.mapPolygons.template.states.create("hover", {
+  fill: am5.color(0xE7F4F1),
+  stroke: am5.color(0x168576),
+  strokeWidth: 1.5
+});
+
+polygonSeries.mapPolygons.template.events.on("click", function(ev) {
+  var id = ev.target.dataItem.get("id");
+  openModal(id);
+});
+
+chart.set("zoomControl", am5map.ZoomControl.new(root, {}));
+</script>
+
+
 </body>
 </html>
