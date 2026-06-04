@@ -430,6 +430,19 @@ footer ul a:hover{color:var(--white)}
   /* opcjonalnie jeśli logo jest ciemne i niewidoczne na czarnym tle stopki: */
   filter: brightness(0) invert(1);
 }
+
+.hero-logo {
+  height: 44px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+@media (max-width: 840px) {
+  .hero-logo {
+    height: 34px;
+  }
+}
 </style>
 </head>
 <body>
@@ -478,7 +491,7 @@ footer ul a:hover{color:var(--white)}
   <div class="hero-card-wrap">
     <div class="hero-card">
       <h1>
-        <img src="Farmacja 24 logo.png" alt="Farmacja 24" class="logo-img"><br>
+        <img src="logo.png" alt="Farmacja 24" class="hero-logo"><br>
         to grupa aptek<br>
         <span class="teal">skupiona na Twoim zdrowiu</span>
       </h1>
