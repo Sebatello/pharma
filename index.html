@@ -469,11 +469,8 @@ footer ul a:hover{color:var(--white)}
 .video-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(13,46,41,.25);transition:background .2s}
 .video-play svg{width:52px;height:52px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
 .video-card:hover .video-play{background:rgba(13,46,41,.4)}
-.video-modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,18,.85);z-index:1200;align-items:center;justify-content:center}
-.video-modal-overlay.open{display:flex}
-.video-modal-box{position:relative;width:min(420px,90vw);aspect-ratio:9/16;background:#000;border-radius:16px;overflow:hidden}
-.video-modal-box video{width:100%;height:100%;object-fit:contain;background:#000}
-.video-modal-close{position:absolute;top:-42px;right:0;background:var(--white);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--dark)}
+.video-card.playing .video-play{display:none}
+.video-card video{background:#000}
 
 /* ===== SEKCJA BLOG ===== */
 .blog-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:26px}
@@ -923,12 +920,7 @@ footer ul a:hover{color:var(--white)}
   </div>
 </section>
 
-<div class="video-modal-overlay" id="videoModalOverlay">
-  <div class="video-modal-box">
-    <button class="video-modal-close" id="videoModalClose" title="Zamknij">&times;</button>
-    <video id="videoModalPlayer" controls autoplay playsinline></video>
-  </div>
-</div>
+
 
 <section class="section" id="lokalizacje">
   <div class="s-label">Sieć aptek</div>
@@ -1473,49 +1465,63 @@ chart.set("zoomControl", am5map.ZoomControl.new(root, {}));
   const track = document.getElementById('videosTrack');
   const prevBtn = document.getElementById('videoPrev');
   const nextBtn = document.getElementById('videoNext');
-  const overlay = document.getElementById('videoModalOverlay');
-  const player = document.getElementById('videoModalPlayer');
-  const closeBtn = document.getElementById('videoModalClose');
   if(!track) return;
 
   const cards = Array.from(track.querySelectorAll('.video-card'));
-  let startIndex = 0;
+  const total = cards.length;
   const visibleCount = 3;
+  let groupIndex = 0;
+  const groupCount = Math.ceil(total / visibleCount);
 
   function render(){
+    const start = groupIndex * visibleCount;
     cards.forEach((c,i)=>{
-      const inRange = i >= startIndex && i < startIndex + visibleCount;
-      c.style.display = inRange ? 'block' : 'none';
+      c.style.display = (i >= start && i < start + visibleCount) ? 'flex' : 'none';
     });
   }
   render();
 
   prevBtn.addEventListener('click', () => {
-    startIndex = (startIndex - 1 + cards.length) % cards.length;
+    groupIndex = (groupIndex - 1 + groupCount) % groupCount;
+    stopAllVideos();
     render();
   });
   nextBtn.addEventListener('click', () => {
-    startIndex = (startIndex + 1) % cards.length;
+    groupIndex = (groupIndex + 1) % groupCount;
+    stopAllVideos();
     render();
   });
 
+  function stopAllVideos(){
+    cards.forEach(c => {
+      const v = c.querySelector('video');
+      v.pause();
+      v.currentTime = 0;
+      v.controls = false;
+      c.classList.remove('playing');
+    });
+  }
+
   cards.forEach(card => {
+    const video = card.querySelector('video');
     card.addEventListener('click', () => {
-      const src = card.getAttribute('data-src');
-      player.src = src;
-      overlay.classList.add('open');
-      player.play().catch(()=>{});
+      if(video.paused){
+        stopAllVideos();
+        video.muted = false;
+        video.controls = true;
+        card.classList.add('playing');
+        video.play().catch(()=>{});
+      } else {
+        video.pause();
+        video.controls = false;
+        card.classList.remove('playing');
+      }
+    });
+    video.addEventListener('ended', () => {
+      video.controls = false;
+      card.classList.remove('playing');
     });
   });
-
-  function closeModal(){
-    overlay.classList.remove('open');
-    player.pause();
-    player.removeAttribute('src');
-    player.load();
-  }
-  closeBtn.addEventListener('click', closeModal);
-  overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
 })();
 
 </script>
