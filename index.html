@@ -486,9 +486,13 @@ footer ul a:hover{color:var(--white)}
 .blog-more-wrap{display:flex;justify-content:center}
 
 @media(max-width:760px){
+  html,body{max-width:100vw;overflow-x:hidden}
   .blog-grid{grid-template-columns:1fr}
-  .video-card{aspect-ratio:9/13}
-  .review-card{width:270px}
+  .review-card{width:82vw;max-width:320px}
+  .videos-track{gap:0}
+  .video-card{aspect-ratio:9/13;display:none !important}
+  .video-card.mobile-active{display:flex !important}
+  .video-arrow{width:38px;height:38px}
 }
 
 </style>
@@ -1469,28 +1473,44 @@ chart.set("zoomControl", am5map.ZoomControl.new(root, {}));
 
   const cards = Array.from(track.querySelectorAll('.video-card'));
   const total = cards.length;
-  const visibleCount = 3;
   let groupIndex = 0;
-  const groupCount = Math.ceil(total / visibleCount);
+
+  function isMobile(){ return window.innerWidth <= 760; }
+  function getVisibleCount(){ return isMobile() ? 1 : 3; }
 
   function render(){
+    const visibleCount = getVisibleCount();
+    const groupCount = Math.ceil(total / visibleCount);
+    if(groupIndex >= groupCount) groupIndex = groupCount - 1;
     const start = groupIndex * visibleCount;
     cards.forEach((c,i)=>{
-      c.style.display = (i >= start && i < start + visibleCount) ? 'flex' : 'none';
+      const show = (i >= start && i < start + visibleCount);
+      if(isMobile()){
+        c.classList.toggle('mobile-active', show);
+      } else {
+        c.classList.remove('mobile-active');
+        c.style.display = show ? 'flex' : 'none';
+      }
     });
   }
   render();
 
+  function groupCountNow(){ return Math.ceil(total / getVisibleCount()); }
+
   prevBtn.addEventListener('click', () => {
-    groupIndex = (groupIndex - 1 + groupCount) % groupCount;
+    const gc = groupCountNow();
+    groupIndex = (groupIndex - 1 + gc) % gc;
     stopAllVideos();
     render();
   });
   nextBtn.addEventListener('click', () => {
-    groupIndex = (groupIndex + 1) % groupCount;
+    const gc = groupCountNow();
+    groupIndex = (groupIndex + 1) % gc;
     stopAllVideos();
     render();
   });
+
+  window.addEventListener('resize', () => { groupIndex = 0; render(); });
 
   function stopAllVideos(){
     cards.forEach(c => {
@@ -1526,6 +1546,15 @@ chart.set("zoomControl", am5map.ZoomControl.new(root, {}));
 
 </script>
 
-
+<!-- Start of OpenWidget (www.openwidget.com) code -->
+<script>
+  window.__ow = window.__ow || {};
+  window.__ow.organizationId = "875ed166-6d34-49c0-a539-325a9269f3a5";
+  window.__ow.integration_name = "manual_settings";
+  window.__ow.product_name = "openwidget";   
+  ;(function(n,t,c){function i(n){return e._h?e._h.apply(null,n):e._q.push(n)}var e={_q:[],_h:null,_v:"2.0",on:function(){i(["on",c.call(arguments)])},once:function(){i(["once",c.call(arguments)])},off:function(){i(["off",c.call(arguments)])},get:function(){if(!e._h)throw new Error("[OpenWidget] You can't use getters before load.");return i(["get",c.call(arguments)])},call:function(){i(["call",c.call(arguments)])},init:function(){var n=t.createElement("script");n.async=!0,n.type="text/javascript",n.src="https://cdn.openwidget.com/openwidget.js",t.head.appendChild(n)}};!n.__ow.asyncInit&&e.init(),n.OpenWidget=n.OpenWidget||e}(window,document,[].slice))
+</script>
+<noscript>You need to <a href="https://www.openwidget.com/enable-javascript" rel="noopener nofollow">enable JavaScript</a> to use the communication tool powered by <a href="https://www.openwidget.com/" rel="noopener nofollow" target="_blank">OpenWidget</a></noscript>
+<!-- End of OpenWidget code -->
 </body>
 </html>
