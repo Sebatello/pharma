@@ -443,6 +443,57 @@ footer ul a:hover{color:var(--white)}
   }
 }
 }
+
+
+/* ===== SEKCJA OPINIE ===== */
+.reviews-wrap{position:relative;overflow:hidden;padding:10px 0 6px}
+.reviews-track{display:flex;gap:22px;width:max-content;animation:reviewsScroll 38s linear infinite}
+.reviews-wrap:hover .reviews-track,.reviews-wrap.paused .reviews-track{animation-play-state:paused}
+@keyframes reviewsScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.review-card{background:var(--white);border:1.5px solid rgba(20,125,111,.10);border-radius:18px;padding:22px 24px;width:320px;flex-shrink:0;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.review-stars{display:flex;gap:3px}
+.review-stars svg{width:16px;height:16px;fill:#1fbf8f}
+.review-text{font-size:.88rem;color:var(--text);line-height:1.55;flex:1}
+.review-author{display:flex;align-items:center;gap:10px;margin-top:4px}
+.review-avatar{width:38px;height:38px;border-radius:50%;background:var(--primary-light);color:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem}
+.review-name{font-weight:700;font-size:.85rem;color:var(--dark)}
+.review-city{font-size:.72rem;color:var(--muted)}
+
+/* ===== SEKCJA PORADY FARMACEUTYCZNE ===== */
+.videos-row{display:flex;align-items:center;gap:14px}
+.video-arrow{flex-shrink:0;width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(20,125,111,.2);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:var(--primary)}
+.video-arrow:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.videos-track{display:flex;gap:20px;flex:1;overflow:hidden}
+.video-card{position:relative;flex:1;min-width:0;aspect-ratio:9/16;border-radius:18px;overflow:hidden;background:#0d2e29;cursor:pointer;box-shadow:var(--shadow)}
+.video-card video{width:100%;height:100%;object-fit:cover;display:block}
+.video-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(13,46,41,.25);transition:background .2s}
+.video-play svg{width:52px;height:52px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+.video-card:hover .video-play{background:rgba(13,46,41,.4)}
+.video-modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,18,.85);z-index:1200;align-items:center;justify-content:center}
+.video-modal-overlay.open{display:flex}
+.video-modal-box{position:relative;width:min(420px,90vw);aspect-ratio:9/16;background:#000;border-radius:16px;overflow:hidden}
+.video-modal-box video{width:100%;height:100%;object-fit:contain;background:#000}
+.video-modal-close{position:absolute;top:-42px;right:0;background:var(--white);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--dark)}
+
+/* ===== SEKCJA BLOG ===== */
+.blog-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:26px}
+.blog-card{background:var(--white);border:1.5px solid rgba(20,125,111,.10);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+.blog-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.blog-img{height:190px;background:linear-gradient(135deg,var(--primary-light),var(--surface-soft));display:flex;align-items:center;justify-content:center}
+.blog-img svg{width:48px;height:48px;color:var(--primary)}
+.blog-body{padding:20px 22px 24px}
+.blog-tag{display:inline-block;background:var(--primary-soft);color:var(--primary);font-size:.7rem;font-weight:700;padding:4px 11px;border-radius:999px;margin-bottom:10px}
+.blog-body h3{font-size:1.05rem;color:var(--dark);margin-bottom:8px;line-height:1.35}
+.blog-body p{font-size:.85rem;color:var(--muted);line-height:1.55;margin-bottom:14px}
+.blog-meta{font-size:.75rem;color:var(--muted);display:flex;gap:8px;align-items:center}
+.blog-more-wrap{display:flex;justify-content:center}
+
+@media(max-width:760px){
+  .blog-grid{grid-template-columns:1fr}
+  .video-card{aspect-ratio:9/13}
+  .review-card{width:270px}
+}
+
 </style>
 </head>
 <body>
@@ -464,6 +515,9 @@ footer ul a:hover{color:var(--white)}
     <li><a href="#jak" onclick="closeMenu()">Jak to działa</a></li>
     <li><a href="#mapa-szczepien" onclick="closeMenu()">Mapa szczepień</a></li>
     <li><a href="#szczepienia" onclick="closeMenu()">Dostępne szczepienia</a></li>
+    <li><a href="#opinie" onclick="closeMenu()">Opinie</a></li>
+    <li><a href="#porady" onclick="closeMenu()">Porady</a></li>
+    <li><a href="#blog" onclick="closeMenu()">Blog</a></li>
     <li><a href="#lokalizacje" onclick="closeMenu()">Apteki</a></li>
     <li><a href="#faq" onclick="closeMenu()">FAQ</a></li>
   </ul>
@@ -481,6 +535,9 @@ footer ul a:hover{color:var(--white)}
 <div class="mobile-menu" id="mobileMenu">
   <a href="#jak" onclick="closeMenu()">Jak to działa</a>
   <a href="#szczepienia" onclick="closeMenu()">Dostępne szczepienia</a>
+  <a href="#opinie" onclick="closeMenu()">Opinie</a>
+  <a href="#porady" onclick="closeMenu()">Porady</a>
+  <a href="#blog" onclick="closeMenu()">Blog</a>
   <a href="#lokalizacje" onclick="closeMenu()">Apteki</a>
   <a href="#faq" onclick="closeMenu()">FAQ</a>
 </div>
@@ -616,6 +673,263 @@ footer ul a:hover{color:var(--white)}
   </div>
 </section>
 
+
+<section class="section" id="opinie">
+  <div class="s-label">Zaufanie klientów</div>
+  <h2 class="s-title">Co mówią o nas pacjenci</h2>
+  <p class="s-sub">Prawdziwe doświadczenia osób, które skorzystały z naszych usług farmaceutycznych.</p>
+  <div class="reviews-wrap" id="reviewsWrap">
+    <div class="reviews-track" id="reviewsTrack">
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Bardzo miła i profesjonalna obsługa. Farmaceutka poświęciła mi czas, żeby wyjaśnić wszystko krok po kroku. Zaszczepiłam się na grypę bez czekania w kolejce do lekarza.”</p>
+        <div class="review-author">
+          <div class="review-avatar">AK</div>
+          <div>
+            <div class="review-name">Anna Kowalska</div>
+            <div class="review-city">Warszawa</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Punkt szczepień w tej aptece to strzał w dziesiątkę. Szybko, sprawnie i bez zbędnych formalności. Polecam każdemu, kto nie ma czasu na wizyty u lekarza.”</p>
+        <div class="review-author">
+          <div class="review-avatar">PN</div>
+          <div>
+            <div class="review-name">Piotr Nowicki</div>
+            <div class="review-city">Gdańsk</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Świetna apteka, personel zawsze pomocny. Skorzystałam z recepty farmaceutycznej i wszystko poszło gładko, bez czekania na termin u lekarza rodzinnego.”</p>
+        <div class="review-author">
+          <div class="review-avatar">MW</div>
+          <div>
+            <div class="review-name">Magdalena Wiśniewska</div>
+            <div class="review-city">Kraków</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Zrobiłem tu badania diagnostyczne przed wyjazdem służbowym. Wynik dostałem tego samego dnia, a personel wszystko dokładnie wyjaśnił.”</p>
+        <div class="review-author">
+          <div class="review-avatar">TZ</div>
+          <div>
+            <div class="review-name">Tomasz Zieliński</div>
+            <div class="review-city">Rzeszów</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Aptek 24h szukałam w środku nocy i trafiłam idealnie. Miła obsługa nawet o 3 w nocy, lek dostałam bez problemu.”</p>
+        <div class="review-author">
+          <div class="review-avatar">KL</div>
+          <div>
+            <div class="review-name">Katarzyna Lewandowska</div>
+            <div class="review-city">Wrocław</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Szczepienie przeciw COVID zrobione szybko i bezboleśnie. Farmaceutka uspokoiła mnie i po 15 minutach obserwacji mogłem iść do domu.”</p>
+        <div class="review-author">
+          <div class="review-avatar">MD</div>
+          <div>
+            <div class="review-name">Marek Dąbrowski</div>
+            <div class="review-city">Poznań</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Zawsze wracam do tej apteki, bo wiem, że dostanę fachową porady i nie muszę czekać godzinami. Bardzo dobra organizacja.”</p>
+        <div class="review-author">
+          <div class="review-avatar">EK</div>
+          <div>
+            <div class="review-name">Ewa Kaczmarek</div>
+            <div class="review-city">Bydgoszcz</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Skorzystałem z usługi utylizacji przeterminowanych leków — szybko, bez pytań, a przy okazji dostałem dobrą radę na przeziębienie.”</p>
+        <div class="review-author">
+          <div class="review-avatar">MW</div>
+          <div>
+            <div class="review-name">Michał Wójcik</div>
+            <div class="review-city">Lublin</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Apteka diabetologiczna okazała się bardzo pomocna — farmaceutka pomogła mi dobrać odpowiedni sprzęt i wyjaśniła jak go używać.”</p>
+        <div class="review-author">
+          <div class="review-avatar">JS</div>
+          <div>
+            <div class="review-name">Joanna Szymańska</div>
+            <div class="review-city">Szczecin</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Rewelacyjna obsługa i miła atmosfera. Dzieciak dostał szczepienie bez płaczu, bo personel jest naprawdę cierpliwy i miły.”</p>
+        <div class="review-author">
+          <div class="review-avatar">KW</div>
+          <div>
+            <div class="review-name">Krzysztof Wróbel</div>
+            <div class="review-city">Katowice</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Bardzo miła i profesjonalna obsługa. Farmaceutka poświęciła mi czas, żeby wyjaśnić wszystko krok po kroku. Zaszczepiłam się na grypę bez czekania w kolejce do lekarza.”</p>
+        <div class="review-author">
+          <div class="review-avatar">AK</div>
+          <div>
+            <div class="review-name">Anna Kowalska</div>
+            <div class="review-city">Warszawa</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Punkt szczepień w tej aptece to strzał w dziesiątkę. Szybko, sprawnie i bez zbędnych formalności. Polecam każdemu, kto nie ma czasu na wizyty u lekarza.”</p>
+        <div class="review-author">
+          <div class="review-avatar">PN</div>
+          <div>
+            <div class="review-name">Piotr Nowicki</div>
+            <div class="review-city">Gdańsk</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Świetna apteka, personel zawsze pomocny. Skorzystałam z recepty farmaceutycznej i wszystko poszło gładko, bez czekania na termin u lekarza rodzinnego.”</p>
+        <div class="review-author">
+          <div class="review-avatar">MW</div>
+          <div>
+            <div class="review-name">Magdalena Wiśniewska</div>
+            <div class="review-city">Kraków</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Zrobiłem tu badania diagnostyczne przed wyjazdem służbowym. Wynik dostałem tego samego dnia, a personel wszystko dokładnie wyjaśnił.”</p>
+        <div class="review-author">
+          <div class="review-avatar">TZ</div>
+          <div>
+            <div class="review-name">Tomasz Zieliński</div>
+            <div class="review-city">Rzeszów</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Aptek 24h szukałam w środku nocy i trafiłam idealnie. Miła obsługa nawet o 3 w nocy, lek dostałam bez problemu.”</p>
+        <div class="review-author">
+          <div class="review-avatar">KL</div>
+          <div>
+            <div class="review-name">Katarzyna Lewandowska</div>
+            <div class="review-city">Wrocław</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Szczepienie przeciw COVID zrobione szybko i bezboleśnie. Farmaceutka uspokoiła mnie i po 15 minutach obserwacji mogłem iść do domu.”</p>
+        <div class="review-author">
+          <div class="review-avatar">MD</div>
+          <div>
+            <div class="review-name">Marek Dąbrowski</div>
+            <div class="review-city">Poznań</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Zawsze wracam do tej apteki, bo wiem, że dostanę fachową porady i nie muszę czekać godzinami. Bardzo dobra organizacja.”</p>
+        <div class="review-author">
+          <div class="review-avatar">EK</div>
+          <div>
+            <div class="review-name">Ewa Kaczmarek</div>
+            <div class="review-city">Bydgoszcz</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Skorzystałem z usługi utylizacji przeterminowanych leków — szybko, bez pytań, a przy okazji dostałem dobrą radę na przeziębienie.”</p>
+        <div class="review-author">
+          <div class="review-avatar">MW</div>
+          <div>
+            <div class="review-name">Michał Wójcik</div>
+            <div class="review-city">Lublin</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Apteka diabetologiczna okazała się bardzo pomocna — farmaceutka pomogła mi dobrać odpowiedni sprzęt i wyjaśniła jak go używać.”</p>
+        <div class="review-author">
+          <div class="review-avatar">JS</div>
+          <div>
+            <div class="review-name">Joanna Szymańska</div>
+            <div class="review-city">Szczecin</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars"><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg><svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 15l-5.6 3.1 1.4-6.3L1 8.5l6.4-.6L10 1z"/></svg></div>
+        <p class="review-text">„Rewelacyjna obsługa i miła atmosfera. Dzieciak dostał szczepienie bez płaczu, bo personel jest naprawdę cierpliwy i miły.”</p>
+        <div class="review-author">
+          <div class="review-avatar">KW</div>
+          <div>
+            <div class="review-name">Krzysztof Wróbel</div>
+            <div class="review-city">Katowice</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section alt" id="porady">
+  <div class="s-label">Wiedza farmaceutyczna</div>
+  <h2 class="s-title">Porady farmaceutyczne w pigułce</h2>
+  <p class="s-sub">Krótkie wideo od naszych farmaceutów — sprawdź, zanim zapytasz.</p>
+  <div class="videos-row">
+    <button class="video-arrow" id="videoPrev" aria-label="Poprzednie wideo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="videos-track" id="videosTrack">
+      <div class="video-card" data-src="rolka1.mp4"><video src="rolka1.mp4" muted playsinline preload="metadata"></video><div class="video-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,.18)" stroke="white" stroke-width="1.5"/><path d="M9.5 8.2v7.6a.7.7 0 0 0 1.06.6l6.1-3.8a.7.7 0 0 0 0-1.2l-6.1-3.8a.7.7 0 0 0-1.06.6z"/></svg></div></div>
+        <div class="video-card" data-src="rolka2.mp4"><video src="rolka2.mp4" muted playsinline preload="metadata"></video><div class="video-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,.18)" stroke="white" stroke-width="1.5"/><path d="M9.5 8.2v7.6a.7.7 0 0 0 1.06.6l6.1-3.8a.7.7 0 0 0 0-1.2l-6.1-3.8a.7.7 0 0 0-1.06.6z"/></svg></div></div>
+        <div class="video-card" data-src="rolka3.mp4"><video src="rolka3.mp4" muted playsinline preload="metadata"></video><div class="video-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,.18)" stroke="white" stroke-width="1.5"/><path d="M9.5 8.2v7.6a.7.7 0 0 0 1.06.6l6.1-3.8a.7.7 0 0 0 0-1.2l-6.1-3.8a.7.7 0 0 0-1.06.6z"/></svg></div></div>
+        <div class="video-card" data-src="rolka4.mp4"><video src="rolka4.mp4" muted playsinline preload="metadata"></video><div class="video-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,.18)" stroke="white" stroke-width="1.5"/><path d="M9.5 8.2v7.6a.7.7 0 0 0 1.06.6l6.1-3.8a.7.7 0 0 0 0-1.2l-6.1-3.8a.7.7 0 0 0-1.06.6z"/></svg></div></div>
+        <div class="video-card" data-src="rolka5.mp4"><video src="rolka5.mp4" muted playsinline preload="metadata"></video><div class="video-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,.18)" stroke="white" stroke-width="1.5"/><path d="M9.5 8.2v7.6a.7.7 0 0 0 1.06.6l6.1-3.8a.7.7 0 0 0 0-1.2l-6.1-3.8a.7.7 0 0 0-1.06.6z"/></svg></div></div>
+        <div class="video-card" data-src="rolka6.mp4"><video src="rolka6.mp4" muted playsinline preload="metadata"></video><div class="video-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,.18)" stroke="white" stroke-width="1.5"/><path d="M9.5 8.2v7.6a.7.7 0 0 0 1.06.6l6.1-3.8a.7.7 0 0 0 0-1.2l-6.1-3.8a.7.7 0 0 0-1.06.6z"/></svg></div></div>
+    </div>
+    <button class="video-arrow" id="videoNext" aria-label="Następne wideo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+  </div>
+</section>
+
+<div class="video-modal-overlay" id="videoModalOverlay">
+  <div class="video-modal-box">
+    <button class="video-modal-close" id="videoModalClose" title="Zamknij">&times;</button>
+    <video id="videoModalPlayer" controls autoplay playsinline></video>
+  </div>
+</div>
+
 <section class="section" id="lokalizacje">
   <div class="s-label">Sieć aptek</div>
   <h2 class="s-title">Znajdź aptekę Farmacja 24</h2>
@@ -681,6 +995,36 @@ footer ul a:hover{color:var(--white)}
         <div id="pharmacyList" class="list" aria-live="polite"></div>
       </section>
     </div>
+  </div>
+</section>
+
+
+<section class="section" id="blog">
+  <div class="s-label">Blog Farmacja 24</div>
+  <h2 class="s-title">Porady i wiedza od naszych ekspertów</h2>
+  <p class="s-sub">Sprawdzone informacje o zdrowiu, szczepieniach i profilaktyce — prosto od farmaceutów.</p>
+  <div class="blog-grid">
+      <div class="blog-card">
+        <div class="blog-img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="8" rx="4"/><line x1="12" y1="8" x2="12" y2="16"/></svg></div>
+        <div class="blog-body">
+          <span class="blog-tag">Zdrowie</span>
+          <h3>5 sposobów na wzmocnienie odporności przed sezonem grypowym</h3>
+          <p>Jesień to czas, gdy organizm jest szczególnie narażony na infekcje. Podpowiadamy, jak przygotować się na sezon przeziębień i kiedy warto rozważyć szczepienie.</p>
+          <div class="blog-meta"><span>3 lipca 2026</span><span>•</span><span>4 min czytania</span></div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></div>
+        <div class="blog-body">
+          <span class="blog-tag">Szczepienia</span>
+          <h3>Szczepienie w aptece — jak wygląda cała procedura krok po kroku</h3>
+          <p>Coraz więcej pacjentów wybiera szczepienie w aptece zamiast wizyty u lekarza. Wyjaśniamy, jak wygląda kwalifikacja, sam zabieg i obowiązkowa obserwacja.</p>
+          <div class="blog-meta"><span>28 czerwca 2026</span><span>•</span><span>6 min czytania</span></div>
+        </div>
+      </div>
+  </div>
+  <div class="blog-more-wrap">
+    <button class="btn-mod btn-mod-primary" type="button">Zobacz więcej artykułów</button>
   </div>
 </section>
 
@@ -1110,6 +1454,70 @@ polygonSeries.mapPolygons.template.events.on("click", function(ev) {
 });
 
 chart.set("zoomControl", am5map.ZoomControl.new(root, {}));
+
+
+/* ===== OPINIE - pauza karuzeli na hover / dotyk ===== */
+(function(){
+  const wrap = document.getElementById('reviewsWrap');
+  if(!wrap) return;
+  const pause = () => wrap.classList.add('paused');
+  const resume = () => wrap.classList.remove('paused');
+  wrap.addEventListener('mouseenter', pause);
+  wrap.addEventListener('mouseleave', resume);
+  wrap.addEventListener('touchstart', pause, {passive:true});
+  wrap.addEventListener('touchend', resume);
+})();
+
+/* ===== PORADY FARMACEUTYCZNE - przewijanie i modal wideo ===== */
+(function(){
+  const track = document.getElementById('videosTrack');
+  const prevBtn = document.getElementById('videoPrev');
+  const nextBtn = document.getElementById('videoNext');
+  const overlay = document.getElementById('videoModalOverlay');
+  const player = document.getElementById('videoModalPlayer');
+  const closeBtn = document.getElementById('videoModalClose');
+  if(!track) return;
+
+  const cards = Array.from(track.querySelectorAll('.video-card'));
+  let startIndex = 0;
+  const visibleCount = 3;
+
+  function render(){
+    cards.forEach((c,i)=>{
+      const inRange = i >= startIndex && i < startIndex + visibleCount;
+      c.style.display = inRange ? 'block' : 'none';
+    });
+  }
+  render();
+
+  prevBtn.addEventListener('click', () => {
+    startIndex = (startIndex - 1 + cards.length) % cards.length;
+    render();
+  });
+  nextBtn.addEventListener('click', () => {
+    startIndex = (startIndex + 1) % cards.length;
+    render();
+  });
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const src = card.getAttribute('data-src');
+      player.src = src;
+      overlay.classList.add('open');
+      player.play().catch(()=>{});
+    });
+  });
+
+  function closeModal(){
+    overlay.classList.remove('open');
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+  }
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
+})();
+
 </script>
 
 
