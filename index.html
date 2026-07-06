@@ -573,9 +573,9 @@ footer ul a:hover{color:var(--white)}
 
 <div class="stats-bar">
   <div class="stat reveal"><div class="stat-n"><span id="s1">0</span><em>+</em></div><div class="stat-l">Miast w sieci</div></div>
-  <div class="stat reveal"><div class="stat-n"><span id="s2">0</span></div><div class="stat-l">Punktów aptecznych</div></div>
+  <div class="stat reveal"><div class="stat-n"><span id="s2">0</span></div><div class="stat-l">Aptek</div></div>
   <div class="stat reveal"><div class="stat-n"><span id="s3">0</span></div><div class="stat-l">Rodzajów usług</div></div>
-  <div class="stat reveal"><div class="stat-n"><span id="s4">0</span><em>k+</em></div><div class="stat-l">Pacjentów rocznie</div></div>
+  <div class="stat reveal"><div class="stat-n"><span id="s4">0</span><em>milion</em></div><div class="stat-l">Pacjentów rocznie</div></div>
 </div>
 
 <section class="section" id="jak">
@@ -1329,10 +1329,10 @@ function animCount(id, target, duration) {
 }
 const statsObs = new IntersectionObserver(entries => {
   if (entries[0].isIntersecting) {
-    animCount('s1', 26, 1200);
+    animCount('s1', 20, 1200);
     animCount('s2', 39, 1200);
-    animCount('s3', 18, 1200);
-    animCount('s4', 25, 1200);
+    animCount('s3', 10, 1200);
+    animCount('s4', 1, 1200);
     statsObs.disconnect();
   }
 }, { threshold: 0.3 });
